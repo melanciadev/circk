@@ -24,7 +24,7 @@ namespace Game{
 		[Header("Spawn Time")]
 		private float timeSinceLastSpawn;
 		private int enemiesInGame;
-		private GameObject[]s enemyArray;
+		private GameObject[] enemyArray;
 
 		private void Awake(){
 			gameManager = GetComponent<GameManager>();
