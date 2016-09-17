@@ -48,7 +48,7 @@ namespace Game{
 
 				//Walk
 				an.SetBool("Walking", (Mathf.Abs(verticalValue) > 0f) || Mathf.Abs(horizontalValue) > 0f);
-				tr.Translate (horizontalValue, verticalValue, 0);
+				tr.Translate (horizontalValue * Time.deltaTime, verticalValue * Time.deltaTime, 0);
 			}
 		}
 
