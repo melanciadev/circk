@@ -5,14 +5,10 @@ namespace Game{
 
 	public class GameManager : MonoBehaviour {
 
-		static protected GameManager _instance = null;
-		static public GameManager Instance { get { return GameManager._instance; } }
-
-		public bool spawn = false; //TODO - TEMP
+		//TODO - TEMP
+		public bool spawn = false;
 		public GameObject enemy;
 
-
-		// POSITION SPAWN OBJECTS
 		[Header("Spawn")]
 		public GameObject leftSpawn;
 		public GameObject rightSpawn;
@@ -25,6 +21,12 @@ namespace Game{
 		public GameObject trueTopSpawn;
 		public GameObject trueBottomSpawn;
 
+		//TODO - USAREMOS?
+		public bool gameOn;
+
+		//ONLY INSTANCE
+		static protected GameManager _instance = null;
+		static public GameManager Instance { get { return GameManager._instance; } }
 
 		private void Awake (){
 			//Only one GameManager
@@ -43,12 +45,12 @@ namespace Game{
 		//TODO - TEMP
 		private void Update(){
 			if(spawn){
-				SpawnEnemy ();
+				SpawnEnemy(enemy);
 				spawn = false;
 			}
 		}
 
-		private void SpawnEnemy(){
+		private void SpawnEnemy(GameObject enemyObject){
 			GameObject startPosition = leftSpawn;
 			GameObject trueStartPosition = trueLeftSpawn;
 			GameObject opositePosition = trueRightSpawn;
