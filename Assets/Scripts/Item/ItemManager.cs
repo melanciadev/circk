@@ -24,6 +24,11 @@ namespace Circk{
 		public Sprite itemLionSprite;
 		public Sprite itemGunSprite;
 
+		[Header("Sprite usingItens")]
+		public Sprite[] itemUseBallSprite;
+		public Sprite itemUseLionSprite;
+		public Sprite itemUseGunSprite;
+
 		[Header("Item Values")]
 		public int maxUsesItemBall;
 		public int maxUsesItemLion;
@@ -42,14 +47,11 @@ namespace Circk{
 		public GameObject[] itemSpawnArea;
 
 
-
 		//TODO - TEMP
 		[Header("TEMP")]
 		public bool spawn = false;
 		public GameObject item;
 		public Transform place;
-
-
 
 
 		private void Awake(){
@@ -88,6 +90,39 @@ namespace Circk{
 				return itemLionSprite;
 			}
 			return null;
+		}
+		public int GetMaxUsesItem(ItemType itemType){
+			if(itemType == ItemType.BALL){
+				return maxUsesItemBall;
+			}
+			if(itemType == ItemType.GUN){
+				return maxUsesItemGun;
+			}
+			if(itemType == ItemType.LION){
+				return maxUsesItemLion;
+			}
+			return 0;
+		}
+	
+		public void UseItem(ItemType itemType, float zAngle){
+			if(itemType == ItemType.BALL){
+				UseItemBall(zAngle);
+			}
+			if(itemType == ItemType.GUN){
+				UseItemLion(zAngle);
+			}
+			if(itemType == ItemType.LION){
+				UseItemGun(zAngle);
+			}
+		}
+		private void UseItemBall(float zAngle){
+			print ("Ball -- " + zAngle);
+		}
+		private void UseItemLion(float zAngle){
+			print ("Lion -- " + zAngle);
+		}
+		private void UseItemGun(float zAngle){
+			print ("Gun -- " + zAngle);
 		}
 	}
 }

@@ -11,7 +11,6 @@ namespace Circk{
 		public float speed;
 		public float delayAfterHit = 0.5f;
 
-
 		[Header("States")]
 		protected bool moveLocked = false;
 
@@ -23,12 +22,18 @@ namespace Circk{
 		private GameManager gm;
 		private ItemManager im;
 
+		[Header("Direction Vector")]
+		public Transform directionTransform;
+
 		[Header("Item")]
 		public GameObject itemHolderSprite;
 		public GameObject itemSprite;
 		private Tweener tween;
 		private ItemManager.ItemType currentItem;
-		private bool usingItem;
+		private bool haveItem;
+		private bool canUseItem;
+		private int maxUsesOfItem;
+		private int currentUseOfItem;
 
 		private void Awake(){
 			//Init Components
@@ -45,8 +50,8 @@ namespace Circk{
 			if(gm.CurrentGameState == GameManager.GameState.GAME){
 				Move ();
 
-				if(usingItem && Input.GetKeyDown(KeyCode.Space)){
-					
+				if(haveItem && canUseItem && Input.GetKeyDown(KeyCode.Space)){
+					UseItem();
 				}
 			}
 		}
@@ -66,6 +71,7 @@ namespace Circk{
 				tr.Translate (horizontalValue * Time.deltaTime, verticalValue * Time.deltaTime, 0);
 			}
 		}
+   	
 
 		private void OnCollisionEnter2D(Collision2D collision){
 			//Gameover when collide to the border
@@ -112,9 +118,7 @@ namespace Circk{
 		}
 
 		//Called by the ItemObject - Show on the playerHead
-		public void TakeItem(ItemManager.ItemType itemType){
-			print (itemType);
-
+		public void TakeItem(ItemManager.ItemType itemType, int maxUses){
 			//Set the item visiable and with the right sprite
 			if(!itemHolderSprite.activeSelf){
 				itemHolderSprite.SetActive(true);
@@ -131,10 +135,27 @@ namespace Circk{
 
 			//set the currentItem
 			currentItem = itemType;
+			maxUsesOfItem = maxUses;
+			currentUseOfItem = 0;
 
 			//Set it is usign one
-			usingItem = true;
+			haveItem = true;
+			canUseItem = true;
 
 		}
+
+		private void UseItem(){
+			canUseItem = false;
+
+			//If still have the item
+			if(currentUseOfItem < maxUsesOfItem){
+
+				//Use it
+				im.UseItem(currentItem, directionTransform.eulerAngles.z);
+				currentUseOfItem++;
+
+			}
+		}
+
 	}
 }

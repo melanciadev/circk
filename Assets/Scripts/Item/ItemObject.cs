@@ -24,6 +24,7 @@ namespace Circk{
 		private void Start(){
 			//start the componets
 			tr = GetComponent<Transform>();
+			itemManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ItemManager>();
 
 			//Set the animations
 			Vector3 finalVector = new Vector3(1, 1, 1); 
@@ -43,7 +44,7 @@ namespace Circk{
 			if (ableToPick && collider.gameObject.tag == "Player") {
 				if(!objTaken){
 					objTaken = true;
-					collider.gameObject.GetComponent<PlayerController>().TakeItem(itemType);
+					collider.gameObject.GetComponent<PlayerController>().TakeItem(itemType, itemManager.GetMaxUsesItem(itemType));
 					PickAnimation();
 				}
 
@@ -62,5 +63,6 @@ namespace Circk{
 				Destroy(gameObject);
 			});
 		}
+
 	}
 }
