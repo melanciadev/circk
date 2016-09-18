@@ -78,8 +78,15 @@ namespace Circk{
 		private void OnCollisionEnter2D(Collision2D collision){
 			//Gameover when collide to the border
 			if (collision.gameObject.tag == "EdgeDeath") {
-				
-				GameManager.Instance.titleScreen.CallGameOver ();
+
+				Vector3 aux = new Vector3(tr.localScale.x * 1.2f, tr.localScale.y * 1.2f, tr.localScale.z);
+
+				tr.DOScale (new Vector3 (0f, 0f, 0f), 0.3f).OnComplete (() => {
+					GameManager.Instance.titleScreen.CallGameOver ();
+				});
+
+
+
 				Debug.Log ("Fim de Jogo");
 			}
 		}

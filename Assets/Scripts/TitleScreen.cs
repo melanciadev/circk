@@ -40,6 +40,7 @@ namespace Circk{
 
 		// Use this for initialization
 		void Start () {
+			maxScoreValue.text = PlayerPrefs.GetInt ("MaxScore").ToString ();
 			Intro ();
 		}
 		

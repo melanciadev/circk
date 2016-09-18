@@ -116,9 +116,13 @@ namespace Circk{
 		}
 
 		protected void Kill(){
-			GameManager.Instance.IncrementScore(scoreToGive);
-			GameObject.Destroy(this.gameObject);
-			enemies.Remove(this);
+
+			tr.DOScale(new Vector3(0f, 0f, 0f), 0.3f).OnComplete(() => {
+				GameManager.Instance.IncrementScore(scoreToGive);
+				enemies.Remove(this);
+				GameObject.Destroy(this.gameObject);
+			});
+
 		}
 	}
 }

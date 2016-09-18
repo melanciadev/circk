@@ -72,7 +72,6 @@ namespace Circk{
 		}
 
 		void Start(){
-			IncrementScore(PlayerPrefs.GetInt("MaxScore"));
 
 			ResetEnergyBar ();
 			ResetCurrentScore ();
@@ -169,6 +168,8 @@ namespace Circk{
 		public void ResetEnergyBar(){
 
 			// CALL THIS AFTER SHOOTING A PROJECTILE
+
+			barTween.Pause ();
 
 			SetEnergyBarFillYScale (0f);
 
