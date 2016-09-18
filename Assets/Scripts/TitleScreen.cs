@@ -42,7 +42,7 @@ namespace Circk{
 		// Use this for initialization
 		void Start () {
 			//maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
-			maxScoreValue.text = "oi2";
+			maxScoreValue.text = "0";
 			Intro ();
 		}
 		
@@ -51,9 +51,8 @@ namespace Circk{
 			if(GameManager.Instance.CurrentGameState == GameManager.GameState.GAME){
 				if(GameManager.Instance.currentScore > PlayerPrefs.GetInt("MaxScore")){
 					PlayerPrefs.SetInt("MaxScore", GameManager.Instance.currentScore);
-					maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
 				}
-
+				maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
 			}
 
 			if (Input.GetKeyDown(KeyCode.Space)){
@@ -131,15 +130,11 @@ namespace Circk{
 			
 
 			PlayerPrefs.SetInt("MaxScore", GameManager.Instance.currentScore);
-
-			gameOver.transform.DOMove (gameOverBeganPos, introTime / 2);
-			credits.transform.DOMove (creditsBeganPos, introTime / 2);
-			message.transform.DOMove (messageBeganPos, introTime / 2).OnComplete(() => {
-				EnemyBase.enemies.Clear();
-				ItemObject.items.Clear();
-				SceneManager.LoadScene("Main");
-			});
-			AudioStuff.PlaySound("start");
+			DOTween.KillAll();
+			if (EnemyBase.enemies != null) EnemyBase.enemies.Clear();
+			if (ItemObject.items != null) ItemObject.items.Clear();
+			SceneManager.LoadScene("Main");
+			//AudioStuff.PlaySound("start");
 
 		}
 	}
