@@ -34,7 +34,7 @@ namespace Game{
 
 		void LineMove(){
 			if (tweenLineMove == null) {
-				tweenLineMove = tr.DOMove (opositeSpawn.position, speed)
+				tweenLineMove = tr.DOMove (oppositeSpawn.position, speed)
 					.SetLoops (-1, LoopType.Yoyo)
 					.SetEase (Ease.Linear);
 			}

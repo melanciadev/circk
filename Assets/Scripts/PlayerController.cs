@@ -20,9 +20,6 @@ namespace Game{
 		private Animator an;
 		private SpriteRenderer sr;
 
-		// OUTISDE
-		private GameObject edgeWarning;
-		private GameObject edgeDeath;
 
 		private void Awake(){
 			//Init Components
@@ -31,9 +28,6 @@ namespace Game{
 			an = GetComponent<Animator> ();
 			sr = GetComponent<SpriteRenderer> ();
 
-			//Find the game borders
-			edgeWarning = GameObject.FindGameObjectWithTag ("EdgeWarning");
-			edgeDeath = GameObject.FindGameObjectWithTag ("EdgeDeath");
 		}
 
 		private void Update(){

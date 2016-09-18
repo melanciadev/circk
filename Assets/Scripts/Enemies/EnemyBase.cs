@@ -8,6 +8,8 @@ namespace Game{
 	public class EnemyBase : MonoBehaviour {
 
 		//VALUES
+		public float power = 1.0f;
+		public float weight = 1.0f;
 		public float speed = 0.1f;
 		public float entranceSpeed = 1.0f;
 		public float delayAfterHit = 1f;
@@ -17,6 +19,7 @@ namespace Game{
 		protected Transform tr;
 		protected Rigidbody2D rb;
 		protected Collider2D cl;
+		protected Animator an;
 
 		//OUTSIDE COMPONENTS
 		protected GameObject player;
@@ -24,7 +27,7 @@ namespace Game{
 		//SPAWN VALUES
 		protected Transform originSpawn;
 		protected Transform finalSpawn;
-		protected Transform opositeSpawn;
+		protected Transform oppositeSpawn;
 
 		//STATE
 		protected bool entranceBehaviour = false;
@@ -36,6 +39,7 @@ namespace Game{
 			tr = GetComponent<Transform>();
 			rb = GetComponent<Rigidbody2D>();
 			cl = GetComponent<Collider2D> ();
+			an = GetComponent<Animator> ();
 
 			//Find the player
 			player = GameObject.FindGameObjectWithTag("Player");
@@ -52,7 +56,7 @@ namespace Game{
 			if (col.gameObject.tag == "Player") {
 				//Set the orientation and intensity of the impact that will cause to the player
 				Vector3 impactOrientation = -col.contacts[0].normal; 
-				col.gameObject.GetComponent<PlayerController>().Impact (impactOrientation, impactValue);
+				col.gameObject.GetComponent<PlayerController>().Impact (impactOrientation, impactValue * power);
 			}
 
 			if(col.gameObject.tag == "EdgeDeath"){
@@ -68,7 +72,7 @@ namespace Game{
 			//Set the spawn points
 			this.originSpawn = originSpawn;
 			this.finalSpawn = finalSpawn;
-			this.opositeSpawn = opositeSpawn;
+			this.oppositeSpawn = opositeSpawn;
    		}
 		public void StartEntrance(){
 			
@@ -77,10 +81,11 @@ namespace Game{
 
 			tr.DOMove (finalSpawn.position, entranceSpeed)
 				.OnComplete(() => {
+					an.SetTrigger("Land");
 					normalBehaviour = true;
 					cl.enabled = true;
 				})
-				.SetEase(Ease.InOutBack);
+				.SetEase(Ease.InBack);
 		}
 
 		protected IEnumerator WaitAndCall(float waitTime, Action callback){

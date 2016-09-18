@@ -18,7 +18,8 @@ namespace Game{
 				Chase ();
 
 				//Always look to the player
-				orientationTr.rotation = Quaternion.LookRotation(player.transform.position);
+				orientationTr.LookAt(player.transform.position);
+				//orientationTr.rotation = Quaternion.LookRotation(player.transform.position);
 			}
 		}
 
@@ -30,6 +31,8 @@ namespace Game{
 			if(col.gameObject.tag == "Player"){
 				//Stop chasing
 				chasing = false;
+
+				an.SetTrigger ("Attack");
 
 				//Start the delay and chase again after
 				StartCoroutine(WaitAndCall(delayAfterHit, () => { 

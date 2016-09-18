@@ -31,6 +31,8 @@ namespace Game{
 			if(col.gameObject.tag == "Player"){ //TODO - colidir com outras 
 				gameObject.layer = 0;
 
+				an.SetTrigger ("Hit");
+
 				StartCoroutine(WaitAndCall(delayAfterHit, () => { 
 					gameObject.layer = 8;
 				}));
