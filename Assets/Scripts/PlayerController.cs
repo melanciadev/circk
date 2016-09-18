@@ -7,6 +7,8 @@ namespace Circk{
 	
 	public class PlayerController : MonoBehaviour {
 
+		public static PlayerController me = null;
+
 		[Header("Values")]
 		public float speed;
 		public float delayAfterHit = 0.5f;
@@ -43,6 +45,8 @@ namespace Circk{
 			sr = GetComponent<SpriteRenderer>();
 			gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 			im = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ItemManager>();
+
+			me = this;
 		}
 
 		private void Update(){

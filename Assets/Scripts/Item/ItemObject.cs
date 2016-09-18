@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 
 namespace Circk{
 	public class ItemObject : MonoBehaviour {
+
+		public static List<ItemObject> items = null;
 
 		[Header("Components")]
 		private ItemManager itemManager;
@@ -29,6 +32,11 @@ namespace Circk{
 			//Set the animations
 			Vector3 finalVector = new Vector3(1, 1, 1); 
 			tween = tr.DOScale (finalVector, 0.5f);
+
+			if (items == null) {
+				items = new List<ItemObject>();
+			}
+			items.Add(this);
 		}
 
 		//Called by the ItemManager
@@ -36,7 +44,7 @@ namespace Circk{
 			//Save the item type
 			this.itemType = itemType;
 			ableToPick = false;
-
+			
 			ShowAnimation();
 		}
 
@@ -60,6 +68,7 @@ namespace Circk{
 
 		private void PickAnimation(){
 			tween = tr.DOScale(Vector3.zero, 0.2f).OnComplete(() => {
+				items.Remove(this);
 				Destroy(gameObject);
 			});
 		}

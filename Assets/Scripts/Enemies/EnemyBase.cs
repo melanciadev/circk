@@ -1,11 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 
 namespace Circk{
 
 	public class EnemyBase : MonoBehaviour {
+
+		public static List<EnemyBase> enemies = null;
 
 		//VALUES
 		public int scoreToGive = 1;
@@ -48,6 +51,11 @@ namespace Circk{
 
 			originalScale = tr.localScale;
 			tr.localScale = new Vector3 (0.2f, 0.2f, 0.2f);
+
+			if (enemies == null) {
+				enemies = new List<EnemyBase>();
+			}
+			enemies.Add(this);
 		}
 			
 		protected void OnCollisionEnter2D(Collision2D col){
@@ -105,6 +113,7 @@ namespace Circk{
 		protected void Kill(){
 			GameManager.Instance.IncrementScore(scoreToGive);
 			GameObject.Destroy(this.gameObject);
+			enemies.Remove(this);
 		}
 	}
 }
