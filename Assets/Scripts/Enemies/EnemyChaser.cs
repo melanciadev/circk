@@ -11,6 +11,8 @@ namespace Circk{
 		// COMPONENTS
 		public Transform orientationTr;
 
+		public bool isBoss = false;
+
 		void FixedUpdate () {
 			base.FixedUpdate();
 
@@ -48,6 +50,18 @@ namespace Circk{
 				tr.position = Vector2.MoveTowards(tr.position, player.transform.position, speed * Time.deltaTime);
 			}
 				
+		}
+
+		public override void Impact(Vector3 orientation,float force) {
+			base.Impact(orientation,force);
+
+			AudioStuff.PlaySound(isBoss ? "boss" : "urso");
+		}
+
+		protected override void Kill() {
+			base.Kill();
+
+			AudioStuff.PlaySound(isBoss ? "bossdead" : "ursodead");
 		}
 	}
 

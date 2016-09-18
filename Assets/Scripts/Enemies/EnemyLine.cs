@@ -36,5 +36,17 @@ namespace Circk{
 					.SetEase (Ease.Linear);
 			}
 		}
+
+		public override void Impact(Vector3 orientation,float force) {
+			base.Impact(orientation,force);
+
+			AudioStuff.PlaySound("bailarina");
+		}
+
+		protected override void Kill() {
+			base.Kill();
+
+			AudioStuff.PlaySound("bailarinadead");
+		}
 	}
 }

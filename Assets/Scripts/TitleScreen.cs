@@ -41,12 +41,21 @@ namespace Circk{
 
 		// Use this for initialization
 		void Start () {
-			maxScoreValue.text = PlayerPrefs.GetInt ("MaxScore").ToString ();
+			//maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
+			maxScoreValue.text = "oi2";
 			Intro ();
 		}
 		
 		// Update is called once per frame
 		void Update () {
+			if(GameManager.Instance.CurrentGameState == GameManager.GameState.GAME){
+				if(GameManager.Instance.currentScore > PlayerPrefs.GetInt("MaxScore")){
+					PlayerPrefs.SetInt("MaxScore", GameManager.Instance.currentScore);
+					maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
+				}
+
+			}
+
 			if (Input.GetKeyDown(KeyCode.Space)){
 				switch (GameManager.Instance.CurrentGameState) {
 				case GameManager.GameState.TITLE:
@@ -54,6 +63,7 @@ namespace Circk{
 					break;
 
 				case GameManager.GameState.RETRY:
+					
 					GameOverOutro ();
 					break;
 
@@ -76,6 +86,8 @@ namespace Circk{
 								.OnComplete(() => { onIntro = false; });
 						});
 				});
+
+			AudioStuff.PlayMusic("mus-menu");
 		}
 
 		public void IntroOut(){
@@ -88,10 +100,13 @@ namespace Circk{
 
 			GameManager.Instance.CurrentGameState = GameManager.GameState.GAME;
 			GameManager.Instance.StartFillEnergyBar ();
+
+			AudioStuff.PlaySound("start");
+			AudioStuff.PlayMusic("mus-fase");
 		}
 
 		public void CallGameOver(){
-
+			
 			onIntro = true;
 
 			GameManager.Instance.CurrentGameState = GameManager.GameState.RETRY;
@@ -99,29 +114,32 @@ namespace Circk{
 			messageImage.sprite = messageImageRetry;
 
 			finalScoreValue.text = GameManager.Instance.currentScore.ToString();
-			maxScoreValue.text = GameManager.Instance.maxScore.ToString();
+			//maxScoreValue.text = GameManager.Instance.maxScore.ToString();
 		
 			gameOver.transform.DOMoveX (0f, introTime);
 			credits.transform.DOMove (creditsFinalPos.transform.position, introTime);
 			message.transform.DOMove (messageFinalPos.transform.position, introTime).OnComplete(() => { onIntro = false; });
 
+			AudioStuff.StopMusic();
+			AudioStuff.PlaySound("mus-vinheta",1);
 		}
 
 		public void GameOverOutro(){
-
+			
 			if (onIntro)
 				return;
+			
 
-
-			PlayerPrefs.SetInt ("MaxScore", GameManager.Instance.maxScore);
+			PlayerPrefs.SetInt("MaxScore", GameManager.Instance.currentScore);
 
 			gameOver.transform.DOMove (gameOverBeganPos, introTime / 2);
-			credits.transform.DOMove (creditsBeganPos, introTime / 2 );
+			credits.transform.DOMove (creditsBeganPos, introTime / 2);
 			message.transform.DOMove (messageBeganPos, introTime / 2).OnComplete(() => {
-				SceneManager.LoadScene("Main");
 				EnemyBase.enemies.Clear();
 				ItemObject.items.Clear();
+				SceneManager.LoadScene("Main");
 			});
+			AudioStuff.PlaySound("start");
 
 		}
 	}

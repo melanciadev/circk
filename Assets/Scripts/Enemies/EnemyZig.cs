@@ -43,7 +43,19 @@ namespace Circk{
 			if (!zigMovementStarted) {
 				zigMovementStarted = true;
 				rb.AddForce(new Vector3(speed, speed, 0));
-			} 
+			}
+		}
+
+		public override void Impact(Vector3 orientation,float force) {
+			base.Impact(orientation,force);
+
+			AudioStuff.PlaySound("bruno");
+		}
+
+		protected override void Kill() {
+			base.Kill();
+
+			AudioStuff.PlaySound("brunodead");
 		}
 	}
 }
