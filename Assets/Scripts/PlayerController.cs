@@ -163,9 +163,9 @@ namespace Circk{
 				if(currentItem == ItemManager.ItemType.BALL){
 					an.SetTrigger("Throw");
 				}
-				//else if(currentItem == ItemManager.ItemType.LION){
-				//	an.SetTrigger("Summon");
-				//}
+				else if(currentItem == ItemManager.ItemType.LION){
+					an.SetTrigger("Summon");
+				}
 
 				//Use it
 				im.UseItem(currentItem, originPosition);
