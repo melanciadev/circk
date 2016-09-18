@@ -28,11 +28,12 @@ namespace Circk{
 		public float energyBarMax = 100f;
 		protected float energyBarCurrentPoints = 0f;
 		public float energyBarTime = 10f;
+		public Tweener barTween;
 
 		[Header("Score")]
 		public Text scoreValueText;
 		public int currentScore = 0;
-		protected int maxScore = 0;
+		public int maxScore = 0;
 
 		[Header("Crowd")]
 		protected float crowdOriginalYPos;
@@ -149,15 +150,16 @@ namespace Circk{
 
 		// Realiza o Tween da variavel de Pontos da barra de especial
 		public void StartFillEnergyBar(){
-			DOTween.To (() => energyBarCurrentPoints, x => energyBarCurrentPoints = x, energyBarMax, energyBarTime)
+			barTween = DOTween.To (() => energyBarCurrentPoints, x => energyBarCurrentPoints = x, energyBarMax, energyBarTime)
 				.OnUpdate (() => {
-					SetEnergyBarFillYScale(energyBarCurrentPoints/energyBarMax);
+					SetEnergyBarFillYScale (energyBarCurrentPoints / energyBarMax);
 				})
-				.OnComplete(() => {
-					energyBarAnimator.SetBool("SpecialReady", true); 
+				.OnComplete (() => {
+					energyBarAnimator.SetBool ("SpecialReady", true); 
 					energyBarSpecialFrame.SetActive (true);
 				})
-				.SetEase(Ease.Linear);
+				.SetEase (Ease.Linear);
+
 		}
 
 		public void ResetEnergyBar(){
@@ -170,7 +172,8 @@ namespace Circk{
 			energyBarSpecialFrame.SetActive (false);
 			energyBarAnimator.SetBool ("SpecialReady", false);
 
-			StartFillEnergyBar ();
+			if (GameManager.Instance.CurrentGameState == GameState.GAME)
+				StartFillEnergyBar ();
 		}
 
 		protected void SetEnergyBarFillYScale(float newY){

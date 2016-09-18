@@ -4,7 +4,6 @@ namespace Circk{
 	
 	public class RotationArrow : MonoBehaviour {
 
-		private GameManager gameManager;
 		private Transform tr;
 
 		public enum Angle{
@@ -20,12 +19,12 @@ namespace Circk{
 		public Angle currentAngle;
 
 		private void Awake(){
-			gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+			
 			tr = GetComponent<Transform>();
 		}
 
 		private void Update(){
-			if(gameManager.CurrentGameState == GameManager.GameState.GAME){
+			if(GameManager.Instance.CurrentGameState == GameManager.GameState.GAME){
 
 				if (Input.GetAxis ("Vertical") > 0) {
 					//upRight

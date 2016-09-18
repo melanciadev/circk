@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.UI;
 
 
 namespace Circk{
 	public class TitleScreen : MonoBehaviour {
-
-		private GameManager gameManager;
 
 		[Header("UI")]
 		public GameObject logo;
@@ -15,20 +14,28 @@ namespace Circk{
 		public GameObject creditsFinalPos;
 		public GameObject message;
 		public GameObject messageFinalPos;
+		public Image messageImage;
+		public Sprite messageImageMenu;
+		public Sprite messageImageRetry;
 
 		protected Vector3 logoBeganPos;
 		protected Vector3 creditsBeganPos;
 		protected Vector3 messageBeganPos;
+		protected Vector3 gameOverBeganPos;
 
-		public float introSpeed = 1.0f;
+		public GameObject gameOver;
+		public Text finalScoreValue;
+		public Text maxScoreValue;
+
+		public float introTime = 1.0f;
 		protected bool onIntro = true;
 
 		void Awake(){
 			logoBeganPos = logo.transform.position;
 			creditsBeganPos = credits.transform.position;
 			messageBeganPos = message.transform.position;
+			gameOverBeganPos = gameOver.transform.position;
 
-			gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 		}
 
 		// Use this for initialization
@@ -38,17 +45,32 @@ namespace Circk{
 		
 		// Update is called once per frame
 		void Update () {
-			if (Input.GetKeyDown(KeyCode.Space) && gameManager.CurrentGameState == GameManager.GameState.TITLE) {
-				IntroOut();
+			if (Input.GetKeyDown(KeyCode.Space)){
+				switch (GameManager.Instance.CurrentGameState) {
+				case GameManager.GameState.TITLE:
+					IntroOut();
+					break;
+
+				case GameManager.GameState.RETRY:
+					GameOverOutro ();
+					break;
+
+				default:
+					break;
+				}
+
 			}
 		}
 
 		public void Intro(){
-			logo.transform.DOMove (logoFinalPos.transform.position, introSpeed)
+
+			onIntro = true;
+
+			logo.transform.DOMove (logoFinalPos.transform.position, introTime)
 				.OnComplete(() => { 
-					credits.transform.DOMove(creditsFinalPos.transform.position, introSpeed)
+					credits.transform.DOMove(creditsFinalPos.transform.position, introTime)
 						.OnComplete(() => { 
-							message.transform.DOMove(messageFinalPos.transform.position, introSpeed)
+							message.transform.DOMove(messageFinalPos.transform.position, introTime / 2)
 								.OnComplete(() => { onIntro = false; });
 						});
 				});
@@ -58,11 +80,40 @@ namespace Circk{
 			if (onIntro)
 				return;
 
-			message.transform.DOMove (messageBeganPos, introSpeed);
-			credits.transform.DOMove (creditsBeganPos, introSpeed);
-			logo.transform.DOMove(logoBeganPos, introSpeed);
+			message.transform.DOMove (messageBeganPos, introTime / 2);
+			credits.transform.DOMove (creditsBeganPos, introTime / 2);
+			logo.transform.DOMove(logoBeganPos, introTime / 2);
 
-			gameManager.CurrentGameState = GameManager.GameState.GAME;
+			GameManager.Instance.CurrentGameState = GameManager.GameState.GAME;
+			GameManager.Instance.StartFillEnergyBar ();
+		}
+
+		public void CallGameOver(){
+
+			onIntro = true;
+
+			GameManager.Instance.CurrentGameState = GameManager.GameState.RETRY;
+
+			messageImage.sprite = messageImageRetry;
+
+			finalScoreValue.text = GameManager.Instance.currentScore.ToString();
+			maxScoreValue.text = GameManager.Instance.maxScore.ToString();
+		
+			gameOver.transform.DOMoveX (0f, introTime);
+			credits.transform.DOMove (creditsFinalPos.transform.position, introTime);
+			message.transform.DOMove (messageFinalPos.transform.position, introTime);
+
+
+		}
+
+		public void GameOverOutro(){
+			if (onIntro)
+				return;
+			
+			gameOver.transform.DOMove (gameOverBeganPos, introTime);
+			credits.transform.DOMove (creditsBeganPos, introTime);
+			message.transform.DOMove (messageBeganPos, introTime);
+
 		}
 	}
 }
