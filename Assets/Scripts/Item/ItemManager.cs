@@ -125,6 +125,9 @@ namespace Circk{
 		private void UseItemLion(Transform origin){
 			//Instantiate the Lion on the player origin
 			GameObject lion = (GameObject)Instantiate(itemUseLionSprite, origin.transform.position,origin.transform.rotation);
+
+			//Set the speed and direction
+			lion.GetComponent<Ball>().SetSpeed(gameManager.energyBarCurrentPoints * 0.1f);
 		}
 		private void UseItemGun(Transform origin){
 			//Instantiate the Gun on the player origin

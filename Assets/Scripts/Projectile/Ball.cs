@@ -24,7 +24,7 @@ namespace Circk{
 		}
 
 		public void SetSpeed(float speed){
-			this.speed = speed;
+			this.speed = speed * 2;
 			rb.AddForce (tr.up * speed, ForceMode2D.Impulse);
 			print(tr.forward);
 		}
@@ -35,7 +35,11 @@ namespace Circk{
 				//Set the orientation and intensity of the impact that will cause to the player
 				Vector3 impactOrientation = -col.contacts[0].normal; 
 				col.gameObject.GetComponent<EnemyBase>().Impact(impactOrientation, impactValue * speed);
-				Destroy(gameObject, 0.3f);
+				Destroy(gameObject, 0.1f);
+			}
+
+			if(col.gameObject.tag == "EdgeDeath"){
+				Destroy(gameObject, 0.1f);
 			}
 		}
 	}

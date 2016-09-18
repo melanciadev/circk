@@ -20,16 +20,13 @@ namespace Circk{
 		private void OnCollisionEnter2D(Collision2D col){
 			base.OnCollisionEnter2D (col);
 
-			//If collides with the player
-			if(col.gameObject.tag == "Player"){
-				//Pause the movement
-				tweenLineMove.Pause();
+			//Pause the movement
+			tweenLineMove.Pause();
 
-				//Start the delay and unpause again after
-				StartCoroutine(WaitAndCall(delayAfterHit, () => { 
-					tweenLineMove.Play();
-				}));
-			}
+			//Start the delay and unpause again after
+			StartCoroutine(WaitAndCall(delayAfterHit, () => { 
+				tweenLineMove.Play();
+			}));
 		}
 
 		void LineMove(){
