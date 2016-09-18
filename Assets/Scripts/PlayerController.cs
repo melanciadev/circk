@@ -77,8 +77,11 @@ namespace Circk{
    	
 		private void OnCollisionEnter2D(Collision2D collision){
 			//Gameover when collide to the border
-			if (collision.gameObject.tag == "EdgeDeath")
+			if (collision.gameObject.tag == "EdgeDeath") {
+				var titleScreen = GameObject.FindGameObjectWithTag ("TitleScreen").GetComponent<TitleScreen> ();
+				titleScreen.CallGameOver ();
 				Debug.Log ("Fim de Jogo");
+			}
 		}
 		private void OnTriggerEnter2D(Collider2D collider){
 			if (collider.gameObject.tag == "EdgeWarning") {
