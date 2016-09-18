@@ -18,6 +18,7 @@ namespace Game{
 		private Transform tr;
 		private Rigidbody2D rb;
 		private Animator an;
+		private SpriteRenderer sr;
 
 		// OUTISDE
 		private GameObject edgeWarning;
@@ -28,6 +29,7 @@ namespace Game{
 			tr = GetComponent<Transform>();
 			rb = GetComponent<Rigidbody2D>();
 			an = GetComponent<Animator> ();
+			sr = GetComponent<SpriteRenderer> ();
 
 			//Find the game borders
 			edgeWarning = GameObject.FindGameObjectWithTag ("EdgeWarning");
@@ -45,6 +47,18 @@ namespace Game{
 				//Get the input
 				float horizontalValue = Input.GetAxis("Horizontal") * speed;
 				float verticalValue = Input.GetAxis("Vertical") * speed * 0.75f;
+
+				var scaleAux = tr.localScale;
+				 
+				/*
+				if (!Mathf.Approximately (horizontalValue, 0f)) {
+					
+					scaleAux.x *= Mathf.Sign (horizontalValue);
+					tr.localScale = scaleAux;
+
+					//tr.localScale = new Vector2(scaleAux.x, scaleAux.y);
+				}
+				*/
 
 				//Walk
 				an.SetBool("Walking", (Mathf.Abs(verticalValue) > 0f) || Mathf.Abs(horizontalValue) > 0f);
@@ -66,7 +80,9 @@ namespace Game{
 		}
 
 		private void OnTriggerExit2D(Collider2D collider){
-			an.SetBool ("Balance", false);
+			if (collider.gameObject.tag == "EdgeWarning") {
+				an.SetBool ("Balance", false);
+			}
 		}
 
 		//When the player is hit - called by enemy
