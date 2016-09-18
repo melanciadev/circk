@@ -111,8 +111,11 @@ namespace Circk{
 			if (onIntro)
 				return;
 
-
-			PlayerPrefs.SetInt ("MaxScore", GameManager.Instance.maxScore);
+			if(GameManager.Instance.currentScore > GameManager.Instance.maxScore){
+				print (GameManager.Instance.currentScore + " -- " + GameManager.Instance.maxScore);
+				PlayerPrefs.SetInt ("MaxScore", GameManager.Instance.currentScore);
+			}
+			maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString ();
 
 			gameOver.transform.DOMove (gameOverBeganPos, introTime / 2);
 			credits.transform.DOMove (creditsBeganPos, introTime / 2 );
