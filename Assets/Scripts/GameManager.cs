@@ -26,7 +26,7 @@ namespace Circk{
 		public GameObject energyBarSpecialFrame;
 		public Animator energyBarAnimator;
 		public float energyBarMax = 100f;
-		protected float energyBarCurrentPoints = 0f;
+		public float energyBarCurrentPoints = 0f;
 		public float energyBarTime = 10f;
 		public Tweener barTween;
 

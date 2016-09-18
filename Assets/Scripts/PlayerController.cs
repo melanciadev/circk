@@ -7,6 +7,8 @@ namespace Circk{
 	
 	public class PlayerController : MonoBehaviour {
 
+		public static PlayerController me = null;
+
 		[Header("Values")]
 		public float speed;
 		public float delayAfterHit = 0.5f;
@@ -23,7 +25,7 @@ namespace Circk{
 		private ItemManager im;
 
 		[Header("Direction Vector")]
-		public Transform directionTransform;
+		public Transform originPosition;
 
 		[Header("Item")]
 		public GameObject itemHolderSprite;
@@ -43,6 +45,8 @@ namespace Circk{
 			sr = GetComponent<SpriteRenderer>();
 			gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 			im = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ItemManager>();
+
+			me = this;
 		}
 
 		private void Update(){
@@ -124,8 +128,8 @@ namespace Circk{
 
 				
 			//Animate it to show and them to keep moving slightly
-			itemHolderSprite.transform.DOScale(new Vector3(2.4f, 2.4f, 2.4f), 0.25f).OnComplete(() => {
-				itemSprite.transform.DOScale(new Vector3(1f, 1f, 1f), 0.25f).OnComplete(() => {
+			itemHolderSprite.transform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.25f).OnComplete(() => {
+				itemSprite.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.25f).OnComplete(() => {
 					//TODO - keep moving slightly
 
 				});
@@ -149,7 +153,7 @@ namespace Circk{
 			if(currentUseOfItem < maxUsesOfItem){
 
 				//Use it
-				im.UseItem(currentItem, directionTransform.eulerAngles.z);
+				im.UseItem(currentItem, originPosition);
 				currentUseOfItem++;
 			}
 		}

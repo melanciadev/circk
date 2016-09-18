@@ -75,25 +75,25 @@ namespace Circk{
 				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 0);
 				break;
 			case Angle.UPLEFT: 
-				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 315);
+				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 45);
 				break;
 			case Angle.UPRIGHT: 
-				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 45);
+				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, -45);
 				break;
 			case Angle.DOWN: 
 				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 180);
 				break;
 			case Angle.DOWNRIGHT: 
-				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 135);
+				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, -135);
 				break;
 			case Angle.DOWNLEFT: 
-				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 195);
+				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 135);
 				break;
 			case Angle.LEFT: 
-				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 270);
+				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 90);
 				break;
 			case Angle.RIGHT: 
-				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, 90);
+				tr.eulerAngles = new Vector3 (tr.eulerAngles.x, tr.eulerAngles.y, -90);
 				break;
 			}
 		}
