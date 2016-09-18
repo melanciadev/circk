@@ -3,17 +3,19 @@ using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 
-namespace Game{
+namespace Circk{
 
 	public class EnemyBase : MonoBehaviour {
 
 		//VALUES
+		public int scoreToGive = 1;
 		public float power = 1.0f;
 		public float weight = 1.0f;
 		public float speed = 0.1f;
 		public float entranceSpeed = 1.0f;
 		public float delayAfterHit = 1f;
 		protected float impactValue = 10f;
+		protected Vector3 originalScale;
 
 		//COMPONENTS
 		protected Transform tr;
@@ -43,6 +45,9 @@ namespace Game{
 
 			//Find the player
 			player = GameObject.FindGameObjectWithTag("Player");
+
+			originalScale = tr.localScale;
+			tr.localScale = new Vector3 (0.2f, 0.2f, 0.2f);
 		}
 			
 		protected void OnCollisionEnter2D(Collision2D col){
@@ -79,6 +84,8 @@ namespace Game{
 			entranceBehaviour = true;
 			cl.enabled = false;
 
+			tr.DOScale (originalScale, entranceSpeed/2f);
+
 			tr.DOMove (finalSpawn.position, entranceSpeed)
 				.OnComplete(() => {
 					an.SetTrigger("Land");
@@ -89,7 +96,6 @@ namespace Game{
 		}
 
 		protected IEnumerator WaitAndCall(float waitTime, Action callback){
-			//Set the chasing to true after the delay
 			yield return new WaitForSeconds(waitTime);
 			if (callback != null) {
 				callback ();
@@ -98,6 +104,7 @@ namespace Game{
 
 		protected void Kill(){
 			//Debug.Log ("Morri");
+			GameManager.Instance.IncrementScore(scoreToGive);
 			GameObject.Destroy (this.gameObject);
 		}
 	}

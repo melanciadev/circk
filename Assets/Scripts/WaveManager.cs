@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Game{
+namespace Circk{
 
 	public class WaveManager : MonoBehaviour {
 

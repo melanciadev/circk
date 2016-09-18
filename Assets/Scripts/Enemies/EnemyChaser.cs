@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Game{
+namespace Circk{
 
 	public class EnemyChaser : EnemyBase {
 
@@ -33,6 +33,7 @@ namespace Game{
 				chasing = false;
 
 				an.SetTrigger ("Attack");
+				GameManager.Instance.CrowdCheerAnimation ();
 
 				//Start the delay and chase again after
 				StartCoroutine(WaitAndCall(delayAfterHit, () => { 

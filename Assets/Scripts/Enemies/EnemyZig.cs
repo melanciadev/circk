@@ -2,7 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-namespace Game{
+namespace Circk{
 	
 	public class EnemyZig : EnemyBase  {
 

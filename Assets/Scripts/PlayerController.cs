@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 
-namespace Game{
+namespace Circk{
 	
 	public class PlayerController : MonoBehaviour {
 
@@ -70,6 +70,7 @@ namespace Game{
 			if (collider.gameObject.tag == "EdgeWarning") {
 				an.SetBool ("Balance", true);
 				Debug.Log ("Warning");
+				GameManager.Instance.CrowdCheerAnimation ();
 			}
 		}
 
