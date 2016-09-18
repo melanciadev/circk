@@ -77,7 +77,7 @@ namespace Circk{
    	
 		private void OnCollisionEnter2D(Collision2D collision){
 			//Gameover when collide to the border
-			if (collision.gameObject.tag == "EdgeDeath") {
+			if (GameManager.Instance.CurrentGameState == GameManager.GameState.GAME && collision.gameObject.tag == "EdgeDeath") {
 
 				Vector3 aux = new Vector3(tr.localScale.x * 1.2f, tr.localScale.y * 1.2f, tr.localScale.z);
 
@@ -85,7 +85,7 @@ namespace Circk{
 					GameManager.Instance.titleScreen.CallGameOver ();
 				});
 
-
+				AudioStuff.PlaySound("palhacodead");
 
 				Debug.Log ("Fim de Jogo");
 			}
@@ -117,6 +117,8 @@ namespace Circk{
 				StartCoroutine (WaitAndCall (delayAfterHit, () => {
 					moveLocked = false;
 				}));
+
+				AudioStuff.PlaySound("palhaco");
 			}
 		}
 
@@ -162,9 +164,11 @@ namespace Circk{
 				//Animate
 				if(currentItem == ItemManager.ItemType.BALL){
 					an.SetTrigger("Throw");
+					AudioStuff.PlaySound("ball");
 				}
 				else if(currentItem == ItemManager.ItemType.LION){
 					an.SetTrigger("Summon");
+					AudioStuff.PlaySound("lion");
 				}
 
 				//Use it

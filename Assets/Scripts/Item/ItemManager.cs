@@ -44,7 +44,7 @@ namespace Circk{
 
 		private void Awake(){
 			gameManager = GetComponent<GameManager>();
-			spawnCounter = timeBetweenSpawn;
+			spawnCounter = timeBetweenSpawn*.5f;
 		}
 
 		private void Update(){

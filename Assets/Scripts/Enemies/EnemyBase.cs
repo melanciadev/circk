@@ -78,8 +78,9 @@ namespace Circk{
 		}
 
 		//When the Enemy is hit - called by Ball and Lion
-		public void Impact(Vector3 orientation, float force){
+		public virtual void Impact(Vector3 orientation, float force){
 			rb.AddForce (force * orientation, ForceMode2D.Impulse);
+			AudioStuff.PlaySound("impact");
 		}
 
 		public void FixedUpdate(){
@@ -115,7 +116,7 @@ namespace Circk{
 			}
 		}
 
-		protected void Kill(){
+		protected virtual void Kill(){
 			tr.DOScale(new Vector3(0f, 0f, 0f), 0.3f).OnComplete(() => {
 				GameManager.Instance.IncrementScore(scoreToGive);
 				enemies.Remove(this);

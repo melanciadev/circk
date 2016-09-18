@@ -27,8 +27,8 @@ namespace Circk{
 
 		private void Awake() {
 			gameManager = GetComponent<GameManager>();
-			currentTimeBetween = minTimeBetween;
-			timeCounter = currentTimeBetween;
+			currentTimeBetween = maxTimeBetween;
+			timeCounter = minTimeBetween;
 			bossCounter = enemiesUntilBoss;
 		}
 

@@ -54,6 +54,7 @@ namespace Circk{
 					objTaken = true;
 					collider.gameObject.GetComponent<PlayerController>().TakeItem(itemType, itemManager.GetMaxUsesItem(itemType));
 					PickAnimation();
+					AudioStuff.PlaySound("item");
 				}
 
 			}

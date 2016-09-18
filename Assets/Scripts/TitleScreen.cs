@@ -75,6 +75,8 @@ namespace Circk{
 								.OnComplete(() => { onIntro = false; });
 						});
 				});
+
+			AudioStuff.PlayMusic("mus-menu");
 		}
 
 		public void IntroOut(){
@@ -87,6 +89,9 @@ namespace Circk{
 
 			GameManager.Instance.CurrentGameState = GameManager.GameState.GAME;
 			GameManager.Instance.StartFillEnergyBar ();
+
+			AudioStuff.PlaySound("start");
+			AudioStuff.PlayMusic("mus-fase");
 		}
 
 		public void CallGameOver(){
@@ -104,6 +109,8 @@ namespace Circk{
 			credits.transform.DOMove (creditsFinalPos.transform.position, introTime);
 			message.transform.DOMove (messageFinalPos.transform.position, introTime).OnComplete(() => { onIntro = false; });
 
+			AudioStuff.StopMusic();
+			AudioStuff.PlaySound("mus-vinheta",1);
 		}
 
 		public void GameOverOutro(){
@@ -118,12 +125,13 @@ namespace Circk{
 			maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString ();
 
 			gameOver.transform.DOMove (gameOverBeganPos, introTime / 2);
-			credits.transform.DOMove (creditsBeganPos, introTime / 2 );
+			credits.transform.DOMove (creditsBeganPos, introTime / 2);
 			message.transform.DOMove (messageBeganPos, introTime / 2).OnComplete(() => {
-				Application.LoadLevelAsync ("Main");
 				EnemyBase.enemies.Clear();
 				ItemObject.items.Clear();
+				Application.LoadLevelAsync ("Main");
 			});
+			AudioStuff.PlaySound("start");
 
 		}
 	}
