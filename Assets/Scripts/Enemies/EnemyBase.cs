@@ -117,8 +117,8 @@ namespace Circk{
 
 		protected void Kill(){
 			GameManager.Instance.IncrementScore(scoreToGive);
-			GameObject.Destroy(this.gameObject);
 			enemies.Remove(this);
+			GameObject.Destroy(this.gameObject);
 		}
 	}
 }

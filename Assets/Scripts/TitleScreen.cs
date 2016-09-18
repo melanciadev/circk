@@ -103,7 +103,6 @@ namespace Circk{
 			credits.transform.DOMove (creditsFinalPos.transform.position, introTime);
 			message.transform.DOMove (messageFinalPos.transform.position, introTime).OnComplete(() => { onIntro = false; });
 
-
 		}
 
 		public void GameOverOutro(){
@@ -116,7 +115,11 @@ namespace Circk{
 
 			gameOver.transform.DOMove (gameOverBeganPos, introTime / 2);
 			credits.transform.DOMove (creditsBeganPos, introTime / 2 );
-			message.transform.DOMove (messageBeganPos, introTime / 2).OnComplete(() => { Application.LoadLevelAsync ("Main"); });
+			message.transform.DOMove (messageBeganPos, introTime / 2).OnComplete(() => {
+				Application.LoadLevelAsync ("Main");
+				EnemyBase.enemies.Clear();
+				ItemObject.items.Clear();
+			});
 
 		}
 	}
