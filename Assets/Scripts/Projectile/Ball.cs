@@ -19,8 +19,7 @@ namespace Circk{
 			tr = GetComponent<Transform> ();
 			rb = GetComponent<Rigidbody2D> ();
 		}
-
-		// Use this for initialization
+			
 		void Start () {
 			
 		}
@@ -28,8 +27,7 @@ namespace Circk{
 		void LateUpdate(){
 			rb.velocity = maxVelocity * (rb.velocity.normalized);
 		}
-
-		// Update is called once per frame
+			
 		void Update () {
 			rb.AddForce (direction, ForceMode2D.Impulse);
 		}
