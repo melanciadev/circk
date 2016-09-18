@@ -119,12 +119,13 @@ namespace Circk{
 			//Set the item visiable and with the right sprite
 			if(!itemHolderSprite.activeSelf){
 				itemHolderSprite.SetActive(true);
-				itemSprite.GetComponent<SpriteRenderer>().sprite = im.GetItemSprite(itemType);
 			}
+			itemSprite.GetComponent<SpriteRenderer>().sprite = im.GetItemSprite(itemType);
+
 				
 			//Animate it to show and them to keep moving slightly
-			itemHolderSprite.transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 0.25f).OnComplete(() => {
-				itemSprite.transform.DOScale(new Vector3(0.7f, 0.7f, 0.7f), 0.25f).OnComplete(() => {
+			itemHolderSprite.transform.DOScale(new Vector3(2.4f, 2.4f, 2.4f), 0.25f).OnComplete(() => {
+				itemSprite.transform.DOScale(new Vector3(1f, 1f, 1f), 0.25f).OnComplete(() => {
 					//TODO - keep moving slightly
 
 				});
