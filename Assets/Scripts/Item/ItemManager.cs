@@ -45,7 +45,7 @@ namespace Circk{
 
 		//TODO - TEMP
 		[Header("TEMP")]
-		public bool spawn = false;s
+		public bool spawn = false;
 		public GameObject item;
 		public Transform place;
 
