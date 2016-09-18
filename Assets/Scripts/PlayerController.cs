@@ -23,7 +23,6 @@ namespace Circk{
 		private ItemManager im;
 
 		[Header("Direction Vector")]
-		public Transform directionTransform;
 		public Transform originPosition;
 
 		[Header("Item")]
@@ -125,8 +124,8 @@ namespace Circk{
 
 				
 			//Animate it to show and them to keep moving slightly
-			itemHolderSprite.transform.DOScale(new Vector3(2.4f, 2.4f, 2.4f), 0.25f).OnComplete(() => {
-				itemSprite.transform.DOScale(new Vector3(1f, 1f, 1f), 0.25f).OnComplete(() => {
+			itemHolderSprite.transform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.25f).OnComplete(() => {
+				itemSprite.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.25f).OnComplete(() => {
 					//TODO - keep moving slightly
 
 				});

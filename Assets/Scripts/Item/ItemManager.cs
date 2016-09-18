@@ -24,10 +24,10 @@ namespace Circk{
 		public Sprite itemLionSprite;
 		public Sprite itemGunSprite;
 
-		[Header("Sprite usingItens")]
-		public Sprite[] itemUseBallSprite;
-		public Sprite itemUseLionSprite;
-		public Sprite itemUseGunSprite;
+		[Header("UsingItens")]
+		public GameObject[] itemUseBallSprite;
+		public GameObject itemUseLionSprite;
+		public GameObject itemUseGunSprite;
 
 		[Header("Item Values")]
 		public int maxUsesItemBall;
@@ -119,13 +119,19 @@ namespace Circk{
 			print ("Ball -- " + origin.transform.rotation);
 
 			//Instantiate the ball on the player origin
-			Instantiate(itemBall, origin.transform.position,origin.transform.rotation);
+			Instantiate(itemUseBallSprite[0], origin.transform.position,origin.transform.rotation);
 		}
 		private void UseItemLion(Transform origin){
 			print ("Lion -- " + origin.transform.rotation);
+
+			//Instantiate the Lion on the player origin
+			Instantiate(itemUseLionSprite, origin.transform.position,origin.transform.rotation);
 		}
 		private void UseItemGun(Transform origin){
 			print ("Gun -- " + origin.transform.rotation);
+
+			//Instantiate the Gun on the player origin
+			Instantiate(itemUseGunSprite, origin.transform.position,origin.transform.rotation);
 		}
 	}
 }
