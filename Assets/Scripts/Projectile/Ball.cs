@@ -18,26 +18,22 @@ namespace Circk{
 		void Awake(){
 			tr = GetComponent<Transform> ();
 			rb = GetComponent<Rigidbody2D> ();
+		
+			Physics2D.IgnoreCollision(PlayerController.me.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 		}
-			
-		void Start () {
-			
+
+		public void SetSpeed(float speed){
+			this.speed = speed;
+			rb.AddForce (tr.up * speed, ForceMode2D.Impulse);
+			print(tr.forward);
 		}
 
 		void LateUpdate(){
-			rb.velocity = maxVelocity * (rb.velocity.normalized);
-		}
-			
-		void Update () {
-			rb.AddForce (direction, ForceMode2D.Impulse);
+			//rb.velocity = maxVelocity * (rb.velocity.normalized);
 		}
 
 		protected void OnCollisionEnter2D(Collision2D col){
 			
-		}
-
-		public void SetDirection(Vector2 vec){
-			direction = vec;
 		}
 	}
 }
