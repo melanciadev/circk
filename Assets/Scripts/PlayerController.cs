@@ -35,7 +35,7 @@ namespace Circk{
 		private bool haveItem;
 		private bool canUseItem;
 		private int maxUsesOfItem;
-		private int currentUseOfItem;
+		public int currentUseOfItem;
 
 		private void Awake(){
 			//Init Components
@@ -129,10 +129,7 @@ namespace Circk{
 				
 			//Animate it to show and them to keep moving slightly
 			itemHolderSprite.transform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.25f).OnComplete(() => {
-				itemSprite.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.25f).OnComplete(() => {
-					//TODO - keep moving slightly
-
-				});
+				itemSprite.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.25f);
 			});
 
 			//set the currentItem
@@ -155,7 +152,20 @@ namespace Circk{
 				//Use it
 				im.UseItem(currentItem, originPosition);
 				currentUseOfItem++;
+
+				if (currentUseOfItem == maxUsesOfItem) {
+					endItem ();
+				} else {
+					canUseItem = true;
+				}
 			}
+		}
+
+		private void endItem(){
+			//Animate it to hide
+			itemHolderSprite.transform.DOScale(Vector3.zero, 0.25f).OnComplete(() => {
+				itemSprite.transform.DOScale(Vector3.zero, 0.25f);
+			});
 		}
 	}
 }

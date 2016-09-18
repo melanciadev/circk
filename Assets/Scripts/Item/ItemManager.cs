@@ -120,8 +120,10 @@ namespace Circk{
 			}
 		}
 		private void UseItemBall(Transform origin){
+			int n = PlayerController.me.currentUseOfItem;
+
 			//Instantiate the ball on the player origin
-			GameObject ball = (GameObject)Instantiate(itemUseBallSprite[0], origin.transform.position,origin.transform.rotation);
+			GameObject ball = (GameObject)Instantiate(itemUseBallSprite[n], origin.transform.position,origin.transform.rotation);
 
 			//Set the speed and direction
 			ball.GetComponent<Ball>().SetSpeed(gameManager.energyBarCurrentPoints * 0.1f);
@@ -134,6 +136,8 @@ namespace Circk{
 			//Instantiate the Gun on the player origin
 			GameObject gun = (GameObject)Instantiate(itemUseGunSprite, origin.transform.position,origin.transform.rotation);
 		}
+
+
 
 		HashSet<int> set = null;
 		List<int> list = null;

@@ -27,13 +27,5 @@ namespace Circk{
 			rb.AddForce (tr.up * speed, ForceMode2D.Impulse);
 			print(tr.forward);
 		}
-
-		void LateUpdate(){
-			//rb.velocity = maxVelocity * (rb.velocity.normalized);
-		}
-
-		protected void OnCollisionEnter2D(Collision2D col){
-			
-		}
 	}
 }
