@@ -84,16 +84,11 @@ namespace Circk{
 				tr.DOScale (new Vector3 (0f, 0f, 0f), 0.3f).OnComplete (() => {
 					GameManager.Instance.titleScreen.CallGameOver ();
 				});
-
-
-
-				Debug.Log ("Fim de Jogo");
 			}
 		}
 		private void OnTriggerEnter2D(Collider2D collider){
 			if (collider.gameObject.tag == "EdgeWarning") {
 				an.SetBool ("Balance", true);
-				Debug.Log ("Warning");
 				GameManager.Instance.CrowdCheerAnimation ();
 			}
 		}
