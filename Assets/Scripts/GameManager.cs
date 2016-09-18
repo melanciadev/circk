@@ -20,6 +20,8 @@ namespace Circk{
 		public bool spawn = false;
 		public GameObject enemy;
 
+		public TitleScreen titleScreen;
+
 		[Header("Energy Bar")]
 		public GameObject energyBar;
 		public GameObject energyBarFill;
@@ -70,6 +72,8 @@ namespace Circk{
 		}
 
 		void Start(){
+			IncrementScore(PlayerPrefs.GetInt("MaxScore"));
+
 			ResetEnergyBar ();
 			ResetCurrentScore ();
 

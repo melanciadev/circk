@@ -101,18 +101,22 @@ namespace Circk{
 		
 			gameOver.transform.DOMoveX (0f, introTime);
 			credits.transform.DOMove (creditsFinalPos.transform.position, introTime);
-			message.transform.DOMove (messageFinalPos.transform.position, introTime);
+			message.transform.DOMove (messageFinalPos.transform.position, introTime).OnComplete(() => { onIntro = false; });
 
 
 		}
 
 		public void GameOverOutro(){
+
 			if (onIntro)
 				return;
-			
-			gameOver.transform.DOMove (gameOverBeganPos, introTime);
-			credits.transform.DOMove (creditsBeganPos, introTime);
-			message.transform.DOMove (messageBeganPos, introTime);
+
+
+			PlayerPrefs.SetInt ("MaxScore", GameManager.Instance.maxScore);
+
+			gameOver.transform.DOMove (gameOverBeganPos, introTime / 2);
+			credits.transform.DOMove (creditsBeganPos, introTime / 2 );
+			message.transform.DOMove (messageBeganPos, introTime / 2).OnComplete(() => { Application.LoadLevelAsync ("Main"); });
 
 		}
 	}
