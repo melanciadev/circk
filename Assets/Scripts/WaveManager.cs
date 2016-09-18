@@ -31,9 +31,10 @@ namespace Circk{
 		}
 
 		private void FixedUpdate(){
-			//Only works if the game is on
-			if(gameManager.gameOn){
-				//TODO
+			//Only works if in the game
+			if(gameManager.CurrentGameState == GameManager.GameState.GAME){
+				
+				//TODO - Spawn inimigos
 			}
 		}
 

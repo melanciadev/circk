@@ -33,7 +33,7 @@ namespace Circk{
 				chasing = false;
 
 				an.SetTrigger ("Attack");
-				GameManager.Instance.CrowdCheerAnimation ();
+				GameManager.Instance.CrowdCheerAnimation();
 
 				//Start the delay and chase again after
 				StartCoroutine(WaitAndCall(delayAfterHit, () => { 

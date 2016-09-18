@@ -103,9 +103,8 @@ namespace Circk{
 		}
 
 		protected void Kill(){
-			//Debug.Log ("Morri");
 			GameManager.Instance.IncrementScore(scoreToGive);
-			GameObject.Destroy (this.gameObject);
+			GameObject.Destroy(this.gameObject);
 		}
 	}
 }

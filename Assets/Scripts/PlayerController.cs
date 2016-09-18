@@ -7,31 +7,48 @@ namespace Circk{
 	
 	public class PlayerController : MonoBehaviour {
 
-		// VALUES
+		[Header("Values")]
 		public float speed;
 		public float delayAfterHit = 0.5f;
 
-		// STATES
+
+		[Header("States")]
 		protected bool moveLocked = false;
 
-		// COMPONENTS
+		[Header("Components")]
 		private Transform tr;
 		private Rigidbody2D rb;
 		private Animator an;
 		private SpriteRenderer sr;
+		private GameManager gm;
+		private ItemManager im;
 
+		[Header("Item")]
+		public GameObject itemHolderSprite;
+		public GameObject itemSprite;
+		private Tweener tween;
+		private ItemManager.ItemType currentItem;
+		private bool usingItem;
 
 		private void Awake(){
 			//Init Components
 			tr = GetComponent<Transform>();
 			rb = GetComponent<Rigidbody2D>();
-			an = GetComponent<Animator> ();
-			sr = GetComponent<SpriteRenderer> ();
-
+			an = GetComponent<Animator>();
+			sr = GetComponent<SpriteRenderer>();
+			gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+			im = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ItemManager>();
 		}
 
 		private void Update(){
-			Move ();
+			//Only moves if the game is on
+			if(gm.CurrentGameState == GameManager.GameState.GAME){
+				Move ();
+
+				if(usingItem && Input.GetKeyDown(KeyCode.Space)){
+					
+				}
+			}
 		}
 
 		public void Move (){
@@ -43,16 +60,6 @@ namespace Circk{
 				float verticalValue = Input.GetAxis("Vertical") * speed * 0.75f;
 
 				var scaleAux = tr.localScale;
-				 
-				/*
-				if (!Mathf.Approximately (horizontalValue, 0f)) {
-					
-					scaleAux.x *= Mathf.Sign (horizontalValue);
-					tr.localScale = scaleAux;
-
-					//tr.localScale = new Vector2(scaleAux.x, scaleAux.y);
-				}
-				*/
 
 				//Walk
 				an.SetBool("Walking", (Mathf.Abs(verticalValue) > 0f) || Mathf.Abs(horizontalValue) > 0f);
@@ -65,7 +72,6 @@ namespace Circk{
 			if (collision.gameObject.tag == "EdgeDeath")
 				Debug.Log ("Fim de Jogo");
 		}
-
 		private void OnTriggerEnter2D(Collider2D collider){
 			if (collider.gameObject.tag == "EdgeWarning") {
 				an.SetBool ("Balance", true);
@@ -73,7 +79,6 @@ namespace Circk{
 				GameManager.Instance.CrowdCheerAnimation ();
 			}
 		}
-
 		private void OnTriggerExit2D(Collider2D collider){
 			if (collider.gameObject.tag == "EdgeWarning") {
 				an.SetBool ("Balance", false);
@@ -104,6 +109,32 @@ namespace Circk{
 			yield return new WaitForSeconds(waitTime);
 			if (callback != null)
 				callback ();
+		}
+
+		//Called by the ItemObject - Show on the playerHead
+		public void TakeItem(ItemManager.ItemType itemType){
+			print (itemType);
+
+			//Set the item visiable and with the right sprite
+			if(!itemHolderSprite.activeSelf){
+				itemHolderSprite.SetActive(true);
+				itemSprite.GetComponent<SpriteRenderer>().sprite = im.GetItemSprite(itemType);
+			}
+				
+			//Animate it to show and them to keep moving slightly
+			itemHolderSprite.transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 0.25f).OnComplete(() => {
+				itemSprite.transform.DOScale(new Vector3(0.7f, 0.7f, 0.7f), 0.25f).OnComplete(() => {
+					//TODO - keep moving slightly
+
+				});
+			});
+
+			//set the currentItem
+			currentItem = itemType;
+
+			//Set it is usign one
+			usingItem = true;
+
 		}
 	}
 }

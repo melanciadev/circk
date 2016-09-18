@@ -28,7 +28,7 @@ namespace Circk{
 			base.OnCollisionEnter2D (col);
 
 			//If collides with the player
-			if(col.gameObject.tag == "Player"){ //TODO - colidir com outras 
+			if(col.gameObject.tag == "Player"){
 				gameObject.layer = 0;
 
 				an.SetTrigger ("Hit");

@@ -6,6 +6,8 @@ using DG.Tweening;
 namespace Circk{
 	public class TitleScreen : MonoBehaviour {
 
+		private GameManager gameManager;
+
 		[Header("UI")]
 		public GameObject logo;
 		public GameObject logoFinalPos;
@@ -25,6 +27,8 @@ namespace Circk{
 			logoBeganPos = logo.transform.position;
 			creditsBeganPos = credits.transform.position;
 			messageBeganPos = message.transform.position;
+
+			gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 		}
 
 		// Use this for initialization
@@ -34,12 +38,10 @@ namespace Circk{
 		
 		// Update is called once per frame
 		void Update () {
-			if (Input.GetButtonDown ("Fire1") || Input.GetKeyDown(KeyCode.Space)) {
-				Outro ();
-				Debug.Log ("OK");
+			if (Input.GetKeyDown(KeyCode.Space) && gameManager.CurrentGameState == GameManager.GameState.TITLE) {
+				IntroOut();
 			}
 		}
-
 
 		public void Intro(){
 			logo.transform.DOMove (logoFinalPos.transform.position, introSpeed)
@@ -52,16 +54,15 @@ namespace Circk{
 				});
 		}
 
-		public void Outro(){
-			//intro.PlayBackwards (); TEM COMO MAS IA DEMORAR
-
+		public void IntroOut(){
 			if (onIntro)
 				return;
 
 			message.transform.DOMove (messageBeganPos, introSpeed);
 			credits.transform.DOMove (creditsBeganPos, introSpeed);
 			logo.transform.DOMove(logoBeganPos, introSpeed);
-				
+
+			gameManager.CurrentGameState = GameManager.GameState.GAME;
 		}
 	}
 }

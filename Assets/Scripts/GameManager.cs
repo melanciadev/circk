@@ -11,10 +11,10 @@ namespace Circk{
 		{
 			TITLE,
 			GAME,
-			PAUSED
+			RETRY
 		}
 
-		protected GameState CurrentGameState = GameState.TITLE;
+		public GameState CurrentGameState = GameState.TITLE;
 
 		//TODO - TEMP
 		public bool spawn = false;
@@ -35,8 +35,8 @@ namespace Circk{
 		protected int maxScore = 0;
 
 		[Header("Crowd")]
+		protected float crowdOriginalYPos;
 		public GameObject crowd;
-
 
 		[Header("Spawn")]
 		public GameObject leftSpawn;
@@ -49,9 +49,6 @@ namespace Circk{
 		public GameObject trueRightSpawn;
 		public GameObject trueTopSpawn;
 		public GameObject trueBottomSpawn;
-
-		//TODO - USAREMOS?
-		public bool gameOn;
 
 		//ONLY INSTANCE
 		static protected GameManager _instance = null;
@@ -74,6 +71,8 @@ namespace Circk{
 		void Start(){
 			ResetEnergyBar ();
 			ResetCurrentScore ();
+
+			crowdOriginalYPos = crowd.transform.position.y;
 			SetCrowdMove (true);
 		}
 
@@ -195,13 +194,10 @@ namespace Circk{
 
 		public void CrowdCheerAnimation(){
 
-			float aux = crowd.transform.position.y;
-
 			crowd.transform.DOMoveY (crowd.transform.position.y + 0.3f, 0.2f)
 				.SetLoops(4, LoopType.Yoyo)
 				.SetEase(Ease.Linear)
-				.OnComplete(() => { crowd.transform.DOLocalMoveY(aux, 0.1f); });
-
+				.OnComplete(() => { crowd.transform.DOMoveY(crowdOriginalYPos, 0.1f); });
 		}
 
 		public void SetCrowdMove(bool move){
