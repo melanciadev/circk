@@ -2,6 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 namespace Circk{
@@ -117,7 +118,7 @@ namespace Circk{
 			gameOver.transform.DOMove (gameOverBeganPos, introTime / 2);
 			credits.transform.DOMove (creditsBeganPos, introTime / 2 );
 			message.transform.DOMove (messageBeganPos, introTime / 2).OnComplete(() => {
-				Application.LoadLevelAsync ("Main");
+				SceneManager.LoadScene("Main");
 				EnemyBase.enemies.Clear();
 				ItemObject.items.Clear();
 			});
