@@ -57,7 +57,6 @@ namespace Circk{
 		}
 
 		public void Move (){
-			
 			//Dont move if player has just been pushed
 			if(!moveLocked){
 				//Get the input
@@ -72,7 +71,6 @@ namespace Circk{
 			}
 		}
    	
-
 		private void OnCollisionEnter2D(Collision2D collision){
 			//Gameover when collide to the border
 			if (collision.gameObject.tag == "EdgeDeath")
@@ -110,7 +108,6 @@ namespace Circk{
 
 		//Wait to restart movement after hit
 		private IEnumerator WaitAndCall(float waitTime, Action callback){
-			
 			//Set the moventLock to false after the delay
 			yield return new WaitForSeconds(waitTime);
 			if (callback != null)
@@ -153,9 +150,7 @@ namespace Circk{
 				//Use it
 				im.UseItem(currentItem, directionTransform.eulerAngles.z);
 				currentUseOfItem++;
-
 			}
 		}
-
 	}
 }
