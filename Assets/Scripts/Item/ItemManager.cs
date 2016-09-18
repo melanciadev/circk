@@ -53,11 +53,14 @@ namespace Circk{
 				spawnCounter -= Time.deltaTime;
 				if (spawnCounter <= 0 && (ItemObject.items != null || ItemObject.items.Count < maxItens)) {
 					spawnCounter = timeBetweenSpawn;
+					/*
 					switch ((int)(Random.value*3)) {
 						case 0: SpawnItem(itemBall); break;
 						case 1: SpawnItem(itemLion); break;
 						default: SpawnItem(itemGun); break;
 					}
+					//*/
+					SpawnItem((Random.value >= .5f) ? itemBall : itemLion);
 				}
 			}
 		}
