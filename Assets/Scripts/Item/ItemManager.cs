@@ -106,11 +106,12 @@ namespace Circk{
 				UseItemBall(origin);
 			}
 			if(itemType == ItemType.GUN){
-				UseItemLion(origin);
-			}
-			if(itemType == ItemType.LION){
 				UseItemGun(origin);
 			}
+			if(itemType == ItemType.LION){
+				UseItemLion(origin);
+			}
+			GameManager.Instance.ResetEnergyBar ();
 		}
 		private void UseItemBall(Transform origin){
 			int n = PlayerController.me.currentUseOfItem;
