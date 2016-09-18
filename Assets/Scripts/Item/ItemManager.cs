@@ -104,25 +104,28 @@ namespace Circk{
 			return 0;
 		}
 	
-		public void UseItem(ItemType itemType, float zAngle){
+		public void UseItem(ItemType itemType, Transform origin){
 			if(itemType == ItemType.BALL){
-				UseItemBall(zAngle);
+				UseItemBall(origin);
 			}
 			if(itemType == ItemType.GUN){
-				UseItemLion(zAngle);
+				UseItemLion(origin);
 			}
 			if(itemType == ItemType.LION){
-				UseItemGun(zAngle);
+				UseItemGun(origin);
 			}
 		}
-		private void UseItemBall(float zAngle){
-			print ("Ball -- " + zAngle);
+		private void UseItemBall(Transform origin){
+			print ("Ball -- " + origin.transform.rotation);
+
+			//Instantiate the ball on the player origin
+			Instantiate(itemBall, origin.transform.position,origin.transform.rotation);
 		}
-		private void UseItemLion(float zAngle){
-			print ("Lion -- " + zAngle);
+		private void UseItemLion(Transform origin){
+			print ("Lion -- " + origin.transform.rotation);
 		}
-		private void UseItemGun(float zAngle){
-			print ("Gun -- " + zAngle);
+		private void UseItemGun(Transform origin){
+			print ("Gun -- " + origin.transform.rotation);
 		}
 	}
 }

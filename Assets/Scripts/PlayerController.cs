@@ -24,6 +24,7 @@ namespace Circk{
 
 		[Header("Direction Vector")]
 		public Transform directionTransform;
+		public Transform originPosition;
 
 		[Header("Item")]
 		public GameObject itemHolderSprite;
@@ -149,7 +150,7 @@ namespace Circk{
 			if(currentUseOfItem < maxUsesOfItem){
 
 				//Use it
-				im.UseItem(currentItem, directionTransform.eulerAngles.z);
+				im.UseItem(currentItem, originPosition);
 				currentUseOfItem++;
 			}
 		}

@@ -63,6 +63,5 @@ namespace Circk{
 				Destroy(gameObject);
 			});
 		}
-
 	}
 }
