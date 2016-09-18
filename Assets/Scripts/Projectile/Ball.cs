@@ -24,7 +24,7 @@ namespace Circk{
 		}
 
 		public void SetSpeed(float speed){
-			this.speed = speed;
+			this.speed = speed * 2;
 			rb.AddForce (tr.up * speed, ForceMode2D.Impulse);
 			print(tr.forward);
 		}
