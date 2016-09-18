@@ -36,43 +36,33 @@ namespace Circk{
 		public int maxUsesItemGun;
 
 		[Header("Values")]
-		public float timeBetweenspawn;
-		public float maxItens;
+		public float timeBetweenSpawn;
+		public int maxItens;
 
 		[Header("Spawn Time")]
-		private float timeSinceLastSpawn;
-		private int itemInGame;
-		private GameObject[] enemyArray;
-
-		[Header("Spawn Places")]
-		public GameObject[] itemSpawnArea;
-
-
-		//TODO - TEMP
-		[Header("TEMP")]
-		public bool spawn = false;
-		public GameObject item;
-		public Transform place;
-
+		private float spawnCounter;
 
 		private void Awake(){
 			gameManager = GetComponent<GameManager>();
+			spawnCounter = timeBetweenSpawn;
 		}
 
-		private void FixedUpdate(){
+		private void Update(){
 			//Only works if in the game
-			if(gameManager.CurrentGameState == GameManager.GameState.GAME){
-				//TODO - Spawn Itens
-
-				//TODO - TEMP
-				if(spawn){
-					spawn = false;
-					SpawnItem (place, item);
+			if (gameManager.CurrentGameState == GameManager.GameState.GAME) {
+				spawnCounter -= Time.deltaTime;
+				if (spawnCounter <= 0 && (ItemObject.items != null || ItemObject.items.Count < maxItens)) {
+					spawnCounter = timeBetweenSpawn;
+					switch ((int)(Random.value*3)) {
+						case 0: SpawnItem(itemBall); break;
+						case 1: SpawnItem(itemLion); break;
+						default: SpawnItem(itemGun); break;
+					}
 				}
 			}
 		}
 
-		private void SpawnItem(Transform spawnArea, GameObject itemGameObject){
+		private void SpawnItem(GameObject itemGameObject){
 			Vector2 pos;
 			if (!RandomPosition(out pos)) return;
 
@@ -136,8 +126,6 @@ namespace Circk{
 			//Instantiate the Gun on the player origin
 			GameObject gun = (GameObject)Instantiate(itemUseGunSprite, origin.transform.position,origin.transform.rotation);
 		}
-
-
 
 		HashSet<int> set = null;
 		List<int> list = null;
