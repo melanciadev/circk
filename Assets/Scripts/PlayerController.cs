@@ -152,6 +152,14 @@ namespace Circk{
 			//If still have the item
 			if(currentUseOfItem < maxUsesOfItem){
 
+				//Animate
+				if(currentItem == ItemManager.ItemType.BALL){
+					an.SetTrigger("Throw");
+				}
+				//else if(currentItem == ItemManager.ItemType.LION){
+				//	an.SetTrigger("Summon");
+				//}
+
 				//Use it
 				im.UseItem(currentItem, originPosition);
 				currentUseOfItem++;
