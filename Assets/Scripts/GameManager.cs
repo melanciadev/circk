@@ -85,7 +85,7 @@ namespace Circk{
 			}
 		}
 
-		private void SpawnEnemy(GameObject enemyObject){
+		public void SpawnEnemy(GameObject enemyObject){
 			GameObject startPosition = leftSpawn;
 			GameObject trueStartPosition = trueLeftSpawn;
 			GameObject opositePosition = trueRightSpawn;
@@ -136,7 +136,7 @@ namespace Circk{
 			}
 		
 			//Instantiate
-			GameObject enemyInstantiated = (GameObject)Instantiate (enemy, startPosition.transform.position, startPosition.transform.rotation);
+			GameObject enemyInstantiated = (GameObject)Instantiate (enemyObject, startPosition.transform.position, startPosition.transform.rotation);
 
 			//Get the EnemyBase Component
 			EnemyBase enemyScript = enemyInstantiated.GetComponent<EnemyBase>();

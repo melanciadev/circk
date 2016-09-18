@@ -18,25 +18,42 @@ namespace Circk{
 		public float minTimeBetween;
 		public float maxTimeBetween;
 		public float incrementalTime;
-		public float maxEnemy;
-		public float enemiesUntilBoss;
+		public int maxEnemy;
+		public int enemiesUntilBoss;
 
-		[Header("Spawn Time")]
-		private float timeSinceLastSpawn;
-		private int enemiesInGame;
-		private GameObject[] enemyArray;
+		float currentTimeBetween;
+		float timeCounter;
+		int bossCounter;
 
-		private void Awake(){
+		private void Awake() {
 			gameManager = GetComponent<GameManager>();
+			currentTimeBetween = minTimeBetween;
+			timeCounter = currentTimeBetween;
+			bossCounter = enemiesUntilBoss;
 		}
 
-		private void FixedUpdate(){
+		private void FixedUpdate() {
 			//Only works if in the game
-			if(gameManager.CurrentGameState == GameManager.GameState.GAME){
-				
-				//TODO - Spawn inimigos
+			if (gameManager.CurrentGameState == GameManager.GameState.GAME) {
+				timeCounter -= Time.deltaTime;
+				if (timeCounter <= 0 && (EnemyBase.enemies == null || EnemyBase.enemies.Count < maxEnemy)) {
+					timeCounter = currentTimeBetween;
+					currentTimeBetween -= incrementalTime;
+					if (currentTimeBetween < minTimeBetween) {
+						currentTimeBetween = minTimeBetween;
+					}
+					switch ((int)(Random.value*3)) {
+						case 0: gameManager.SpawnEnemy(enemyZig); break;
+						case 1: gameManager.SpawnEnemy(enemyChaser); break;
+						default: gameManager.SpawnEnemy(enemyLine); break;
+					}
+					bossCounter--;
+					if (bossCounter <= 0) {
+						bossCounter = enemiesUntilBoss;
+						gameManager.SpawnEnemy(enemieBoss);
+					}
+				}
 			}
 		}
-
 	}
 }
