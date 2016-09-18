@@ -51,7 +51,7 @@ namespace Circk{
 			//Only works if in the game
 			if (gameManager.CurrentGameState == GameManager.GameState.GAME) {
 				spawnCounter -= Time.deltaTime;
-				if (spawnCounter <= 0 && (ItemObject.items != null || ItemObject.items.Count < maxItens)) {
+				if (spawnCounter <= 0 && (ItemObject.items == null || ItemObject.items.Count < maxItens)) {
 					spawnCounter = timeBetweenSpawn;
 					/*
 					switch ((int)(Random.value*3)) {
