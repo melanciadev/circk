@@ -67,6 +67,14 @@ namespace Circk{
 				float horizontalValue = Input.GetAxis("Horizontal") * speed;
 				float verticalValue = Input.GetAxis("Vertical") * speed * 0.75f;
 
+				//Rotate
+				if(horizontalValue > 0){
+					gameObject.GetComponent<SpriteRenderer> ().flipX = true;
+				}
+				else if(horizontalValue < 0){
+					gameObject.GetComponent<SpriteRenderer> ().flipX = false;
+				}
+
 				var scaleAux = tr.localScale;
 
 				//Walk
@@ -85,8 +93,6 @@ namespace Circk{
 					GameManager.Instance.titleScreen.CallGameOver ();
 				});
 				AudioStuff.PlaySound("palhacodead");
-
-				Debug.Log ("Fim de Jogo");
 			}
 		}
 		private void OnTriggerEnter2D(Collider2D collider){

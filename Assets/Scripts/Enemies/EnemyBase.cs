@@ -38,6 +38,9 @@ namespace Circk{
 		protected bool entranceBehaviour = false;
 		protected bool normalBehaviour = false;
 
+		//POSITION
+		private float lastPosition;
+
 
 		private void Awake(){
 			//Init Components
@@ -56,6 +59,9 @@ namespace Circk{
 				enemies = new List<EnemyBase>();
 			}
 			enemies.Add(this);
+
+			//Set the first location
+			lastPosition = tr.position.x;
 		}
 			
 		protected void OnCollisionEnter2D(Collision2D col){
@@ -84,7 +90,13 @@ namespace Circk{
 		}
 
 		public void FixedUpdate(){
-			
+			if(lastPosition > tr.position.x){
+				gameObject.GetComponent<SpriteRenderer>().flipX = true;
+			}
+			else if(lastPosition < tr.position.x){
+				gameObject.GetComponent<SpriteRenderer>().flipX = false;
+			}
+			lastPosition = tr.position.x;
 		}
 			
 		public void SetSpawnPoints(Transform originSpawn, Transform finalSpawn, Transform opositeSpawn){

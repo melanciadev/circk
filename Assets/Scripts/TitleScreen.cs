@@ -38,23 +38,13 @@ namespace Circk{
 			gameOverBeganPos = gameOver.transform.position;
 
 		}
-
-		// Use this for initialization
+			
 		void Start () {
-			//maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
-			maxScoreValue.text = "0";
+			maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
 			Intro ();
 		}
-		
-		// Update is called once per frame
-		void Update () {
-			if(GameManager.Instance.CurrentGameState == GameManager.GameState.GAME){
-				if(GameManager.Instance.currentScore > PlayerPrefs.GetInt("MaxScore")){
-					PlayerPrefs.SetInt("MaxScore", GameManager.Instance.currentScore);
-				}
-				maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
-			}
 
+		void Update () {
 			if (Input.GetKeyDown(KeyCode.Space)){
 				switch (GameManager.Instance.CurrentGameState) {
 				case GameManager.GameState.TITLE:
@@ -105,15 +95,19 @@ namespace Circk{
 		}
 
 		public void CallGameOver(){
-			
+			if(GameManager.Instance.CurrentGameState == GameManager.GameState.GAME){
+				if(GameManager.Instance.currentScore > PlayerPrefs.GetInt("MaxScore")){
+					PlayerPrefs.SetInt("MaxScore", GameManager.Instance.currentScore);
+				}
+				maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
+				finalScoreValue.text = GameManager.Instance.currentScore.ToString();
+			}
+
 			onIntro = true;
 
 			GameManager.Instance.CurrentGameState = GameManager.GameState.RETRY;
 
 			messageImage.sprite = messageImageRetry;
-
-			finalScoreValue.text = GameManager.Instance.currentScore.ToString();
-			//maxScoreValue.text = GameManager.Instance.maxScore.ToString();
 		
 			gameOver.transform.DOMoveX (0f, introTime);
 			credits.transform.DOMove (creditsFinalPos.transform.position, introTime);
@@ -128,8 +122,6 @@ namespace Circk{
 			if (onIntro)
 				return;
 			
-
-			PlayerPrefs.SetInt("MaxScore", GameManager.Instance.currentScore);
 			DOTween.KillAll();
 			if (EnemyBase.enemies != null) EnemyBase.enemies.Clear();
 			if (ItemObject.items != null) ItemObject.items.Clear();

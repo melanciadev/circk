@@ -11,16 +11,23 @@ namespace Circk{
 		public float maxVelocity = 1.0f;
 		protected Vector2 direction;
 		public float impactValue = 10.0f;
+		private float lastPosition;
 
 		// COMPONENTS
 		private Transform tr;
 		private Rigidbody2D rb;
+		public SpriteRenderer spriteRenderer;
+
 
 		void Awake(){
 			tr = GetComponent<Transform> ();
 			rb = GetComponent<Rigidbody2D> ();
 		
 			Physics2D.IgnoreCollision(PlayerController.me.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
+		}
+
+		public void Start(){
+			lastPosition = tr.position.x;
 		}
 
 		public void SetSpeed(float speed){
@@ -41,6 +48,16 @@ namespace Circk{
 			if(col.gameObject.tag == "EdgeDeath"){
 				Destroy(gameObject, 0.1f);
 			}
+		}
+
+		public void FixedUpdate(){
+			if(lastPosition > tr.position.x){
+				spriteRenderer.flipX = false;
+			}
+			else if(lastPosition < tr.position.x){
+				spriteRenderer.flipX = true;
+			}
+			lastPosition = tr.position.x;
 		}
 	}
 }
