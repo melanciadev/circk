@@ -68,12 +68,7 @@ namespace Circk{
 		private void SpawnItem(GameObject itemGameObject){
 			Vector2 pos;
 			if (!RandomPosition(out pos)) return;
-
-			//Instantiate
-			GameObject itemInstantiate = (GameObject)Instantiate (itemGameObject, new Vector3(pos.x,pos.y,.1f), Quaternion.identity);
-
-			//Get the ItemObject Component
-			ItemObject itemScript = itemInstantiate.GetComponent<ItemObject>();
+			Instantiate (itemGameObject, new Vector3(pos.x,pos.y,.1f), Quaternion.identity);
 		}
 
 		public Sprite GetItemSprite(ItemType itemType){
@@ -102,42 +97,42 @@ namespace Circk{
 		}
 	
 		public void UseItem(ItemType itemType, Transform origin){
-			if(itemType == ItemType.BALL){
-				UseItemBall(origin);
+			switch (itemType) {
+				case ItemType.BALL: UseItemBall(origin); break;
+				case ItemType.GUN: UseItemGun(origin); break;
+				case ItemType.LION: UseItemLion(origin); break;
 			}
-			if(itemType == ItemType.GUN){
-				UseItemGun(origin);
-			}
-			if(itemType == ItemType.LION){
-				UseItemLion(origin);
-			}
-			GameManager.Instance.ResetEnergyBar ();
+			GameManager.Instance.ResetEnergyBar();
 		}
 		private void UseItemBall(Transform origin){
 			int n = PlayerController.me.currentUseOfItem;
 
 			//Instantiate the ball on the player origin
-			GameObject ball = (GameObject)Instantiate(itemUseBallSprite[n], origin.transform.position,origin.transform.rotation);
+			GameObject ball = (GameObject)Instantiate(itemUseBallSprite[n], origin.transform.position, Quaternion.identity);
 
 			//Set the speed and direction
-			ball.GetComponent<Ball>().SetSpeed(gameManager.energyBarCurrentPoints * 0.1f);
+			var comp = ball.GetComponent<Ball>();
+			comp.orientation.rotation = origin.rotation;
+			comp.SetSpeed((gameManager.energyBarCurrentPoints/100f)*7+2);
 		}
 		private void UseItemLion(Transform origin){
 			//Instantiate the Lion on the player origin
-			GameObject lion = (GameObject)Instantiate(itemUseLionSprite, origin.transform.position,origin.transform.rotation);
+			GameObject lion = (GameObject)Instantiate(itemUseLionSprite, origin.transform.position, Quaternion.identity);
 
 			//Set the speed and direction
-			lion.GetComponent<Ball>().SetSpeed(gameManager.energyBarCurrentPoints * 0.1f);
+			var comp = lion.GetComponent<Ball>();
+			comp.orientation.rotation = origin.rotation;
+			comp.SetSpeed((gameManager.energyBarCurrentPoints/100f)*7+2);
 		}
 		private void UseItemGun(Transform origin){
 			//Instantiate the Gun on the player origin
-			GameObject gun = (GameObject)Instantiate(itemUseGunSprite, origin.transform.position,origin.transform.rotation);
+			//GameObject gun = (GameObject)Instantiate(itemUseGunSprite, origin.transform.position, Quaternion.identity);
 		}
 
 		HashSet<int> set = null;
 		List<int> list = null;
-		const int stageWidth = 24;
-		const int stageHeight = 9;
+		const int stageWidth = 23;
+		const int stageHeight = 8;
 		const float stageProp = (float)stageWidth/stageHeight;
 		const float stagePropInv = (float)stageHeight/stageWidth;
 		const int stageRadius = stageWidth/2;
@@ -189,22 +184,20 @@ namespace Circk{
 			if (x < 0 || x >= stageWidth) return;
 			int y = (int)((pos.y-.7f)*stageProp+stageRadius);
 			if (y < 0 || y >= stageWidth) return;
-			set.Remove(x+y*stageRadius);
+			set.Remove(x+y*stageWidth);
 			if (isPlayer) {
-				RandomPositionRemoveFromList(x-1,y-1);
-				RandomPositionRemoveFromList(x,y-1);
-				RandomPositionRemoveFromList(x+1,y-1);
-				RandomPositionRemoveFromList(x-1,y);
-				RandomPositionRemoveFromList(x,y);
-				RandomPositionRemoveFromList(x+1,y);
-				RandomPositionRemoveFromList(x-1,y+1);
-				RandomPositionRemoveFromList(x,y+1);
-				RandomPositionRemoveFromList(x+1,y+1);
+				list.Remove(x+y*stageWidth);
+				for (int ox = x-2; ox <= x+2; ox++) {
+					for (int oy = y-2; oy <= y+2; oy++) {
+						RandomPositionRemoveFromList(ox,oy);
+					}
+				}
 			}
 		}
 		private void RandomPositionRemoveFromList(int x,int y) {
 			if (x >= 0 && x < stageWidth && y >= 0 && y < stageWidth) {
-				list.Remove(x+y*stageRadius);
+				list.Remove(x+y*stageWidth);
+				set.Remove(x+y*stageWidth);
 			}
 		}
 	}

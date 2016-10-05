@@ -13,10 +13,10 @@ namespace Circk{
 
 		public bool isBoss = false;
 
-		void FixedUpdate () {
+		public override void FixedUpdate() {
 			base.FixedUpdate();
 
-			if(normalBehaviour){
+			if(normalBehaviour && GameManager.Instance.CurrentGameState == GameManager.GameState.GAME){
 				Chase ();
 
 				//Always look to the player
@@ -25,7 +25,7 @@ namespace Circk{
 			}
 		}
 
-		private void OnCollisionEnter2D(Collision2D col){
+		protected override void OnCollisionEnter2D(Collision2D col){
 
 			base.OnCollisionEnter2D (col);
 
@@ -39,7 +39,7 @@ namespace Circk{
 
 				//Start the delay and chase again after
 				StartCoroutine(WaitAndCall(delayAfterHit, () => { 
-					chasing = true; 
+					chasing = true;
 				}));
 			}
 		}
@@ -55,13 +55,13 @@ namespace Circk{
 		public override void Impact(Vector3 orientation,float force) {
 			base.Impact(orientation,force);
 
-			AudioStuff.PlaySound(isBoss ? "boss" : "urso");
+			AudioStuff.PlaySound(isBoss ? "boss" : "urso",AudioStuff.volumeVoice);
 		}
 
 		protected override void Kill() {
 			base.Kill();
 
-			AudioStuff.PlaySound(isBoss ? "bossdead" : "ursodead");
+			AudioStuff.PlaySound(isBoss ? "bossdead" : "ursodead",AudioStuff.volumeVoice);
 		}
 	}
 

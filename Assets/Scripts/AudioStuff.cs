@@ -13,6 +13,10 @@ namespace Circk {
 
 		static Dictionary<string,AudioClip> clipTable = null;
 
+		public const float volumeMusic = 1;
+		public const float volumeSfx = .3f;
+		public const float volumeVoice = .5f;
+
 		void Awake() {
 			me = this;
 			audMusic = gameObject.AddComponent<AudioSource>();

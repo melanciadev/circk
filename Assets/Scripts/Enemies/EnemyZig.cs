@@ -10,7 +10,7 @@ namespace Circk{
 		public float desiredVelocity;
 		public bool touchedPlayer;
 
-		private void FixedUpdate(){
+		public override void FixedUpdate(){
 			base.FixedUpdate();
 
 			if(normalBehaviour){
@@ -24,7 +24,7 @@ namespace Circk{
 			}
 		}
 
-		private void OnCollisionEnter2D(Collision2D col){
+		protected override void OnCollisionEnter2D(Collision2D col){
 			base.OnCollisionEnter2D (col);
 
 			//If collides with the player
@@ -49,13 +49,13 @@ namespace Circk{
 		public override void Impact(Vector3 orientation,float force) {
 			base.Impact(orientation,force);
 
-			AudioStuff.PlaySound("bruno");
+			AudioStuff.PlaySound("bruno",AudioStuff.volumeVoice);
 		}
 
 		protected override void Kill() {
 			base.Kill();
 
-			AudioStuff.PlaySound("brunodead");
+			AudioStuff.PlaySound("brunodead",AudioStuff.volumeVoice);
 		}
 	}
 }

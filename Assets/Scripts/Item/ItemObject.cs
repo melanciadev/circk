@@ -30,8 +30,8 @@ namespace Circk{
 			itemManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ItemManager>();
 
 			//Set the animations
-			Vector3 finalVector = new Vector3(1, 1, 1); 
-			tween = tr.DOScale (finalVector, 0.5f);
+			tr.localScale = Vector3.zero;
+			tween = tr.DOScale (Vector3.one, 0.5f);
 
 			if (items == null) {
 				items = new List<ItemObject>();

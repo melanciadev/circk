@@ -68,6 +68,7 @@ namespace Circk{
 			onIntro = true;
 
 			logo.transform.DOMove (logoFinalPos.transform.position, introTime)
+				.SetDelay(.5f)
 				.OnComplete(() => { 
 					credits.transform.DOMove(creditsFinalPos.transform.position, introTime)
 						.OnComplete(() => { 
@@ -90,7 +91,7 @@ namespace Circk{
 			GameManager.Instance.CurrentGameState = GameManager.GameState.GAME;
 			GameManager.Instance.StartFillEnergyBar ();
 
-			AudioStuff.PlaySound("start");
+			AudioStuff.PlaySound("start",AudioStuff.volumeSfx);
 			AudioStuff.PlayMusic("mus-fase");
 		}
 
@@ -102,9 +103,9 @@ namespace Circk{
 				maxScoreValue.text = PlayerPrefs.GetInt("MaxScore").ToString();
 				finalScoreValue.text = GameManager.Instance.currentScore.ToString();
 			}
-
+			
 			onIntro = true;
-
+			GameManager.Instance.energyBarFilling = false;
 			GameManager.Instance.CurrentGameState = GameManager.GameState.RETRY;
 
 			messageImage.sprite = messageImageRetry;
@@ -114,7 +115,7 @@ namespace Circk{
 			message.transform.DOMove (messageFinalPos.transform.position, introTime).OnComplete(() => { onIntro = false; });
 
 			AudioStuff.StopMusic();
-			AudioStuff.PlaySound("mus-vinheta",1);
+			AudioStuff.PlaySound("mus-vinheta",AudioStuff.volumeMusic);
 		}
 
 		public void GameOverOutro(){

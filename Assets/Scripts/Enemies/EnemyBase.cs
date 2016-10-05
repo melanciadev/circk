@@ -53,7 +53,7 @@ namespace Circk{
 			player = GameObject.FindGameObjectWithTag("Player");
 
 			originalScale = tr.localScale;
-			tr.localScale = new Vector3 (0.2f, 0.2f, 0.2f);
+			tr.localScale = Vector3.one*0.2f;
 
 			if (enemies == null) {
 				enemies = new List<EnemyBase>();
@@ -64,7 +64,7 @@ namespace Circk{
 			lastPosition = tr.position.x;
 		}
 			
-		protected void OnCollisionEnter2D(Collision2D col){
+		protected virtual void OnCollisionEnter2D(Collision2D col){
 
 			// If collides with another fellow enemy - Ignore
 			if (col.gameObject.tag == "Enemy") {
@@ -76,6 +76,7 @@ namespace Circk{
 				//Set the orientation and intensity of the impact that will cause to the player
 				Vector3 impactOrientation = -col.contacts[0].normal; 
 				col.gameObject.GetComponent<PlayerController>().Impact (impactOrientation, impactValue * power);
+				ParticleManager.Hit(col.contacts[0].point,false);
 			}
 
 			if(col.gameObject.tag == "EdgeDeath"){
@@ -86,10 +87,10 @@ namespace Circk{
 		//When the Enemy is hit - called by Ball and Lion
 		public virtual void Impact(Vector3 orientation, float force){
 			rb.AddForce (force * orientation, ForceMode2D.Impulse);
-			AudioStuff.PlaySound("impact");
+			AudioStuff.PlaySound("impact",AudioStuff.volumeSfx);
 		}
 
-		public void FixedUpdate(){
+		public virtual void FixedUpdate(){
 			if(lastPosition > tr.position.x){
 				gameObject.GetComponent<SpriteRenderer>().flipX = true;
 			}
@@ -129,10 +130,13 @@ namespace Circk{
 		}
 
 		protected virtual void Kill(){
-			tr.DOScale(new Vector3(0f, 0f, 0f), 0.3f).OnComplete(() => {
+			GetComponent<Collider2D>().enabled = false;
+			normalBehaviour = false;
+			rb.velocity = Vector2.zero;
+			tr.DOScale(Vector3.zero, 0.3f).OnComplete(() => {
 				GameManager.Instance.IncrementScore(scoreToGive);
 				enemies.Remove(this);
-				GameObject.Destroy(this.gameObject);
+				Destroy(gameObject);
 			});
 				
 		}

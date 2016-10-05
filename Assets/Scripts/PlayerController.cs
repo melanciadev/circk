@@ -20,7 +20,6 @@ namespace Circk{
 		private Transform tr;
 		private Rigidbody2D rb;
 		private Animator an;
-		private SpriteRenderer sr;
 		private GameManager gm;
 		private ItemManager im;
 
@@ -42,7 +41,6 @@ namespace Circk{
 			tr = GetComponent<Transform>();
 			rb = GetComponent<Rigidbody2D>();
 			an = GetComponent<Animator>();
-			sr = GetComponent<SpriteRenderer>();
 			gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 			im = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ItemManager>();
 
@@ -75,8 +73,6 @@ namespace Circk{
 					gameObject.GetComponent<SpriteRenderer> ().flipX = false;
 				}
 
-				var scaleAux = tr.localScale;
-
 				//Walk
 				an.SetBool("Walking", (Mathf.Abs(verticalValue) > 0f) || Mathf.Abs(horizontalValue) > 0f);
 				tr.Translate (horizontalValue * Time.deltaTime, verticalValue * Time.deltaTime, 0);
@@ -87,9 +83,10 @@ namespace Circk{
 			//Gameover when collide to the border
 			if (GameManager.Instance.CurrentGameState == GameManager.GameState.GAME && collision.gameObject.tag == "EdgeDeath") {
 
-				Vector3 aux = new Vector3(tr.localScale.x * 1.2f, tr.localScale.y * 1.2f, tr.localScale.z);
+				//Vector3 aux = new Vector3(tr.localScale.x * 1.2f, tr.localScale.y * 1.2f, tr.localScale.z);
 
-				tr.DOScale (new Vector3 (0f, 0f, 0f), 0.3f).OnComplete (() => {
+				moveLocked = true;
+				tr.DOScale (Vector3.zero, 0.3f).OnComplete (() => {
 					GameManager.Instance.titleScreen.CallGameOver ();
 				});
 				AudioStuff.PlaySound("palhacodead");
@@ -144,8 +141,8 @@ namespace Circk{
 
 				
 			//Animate it to show and them to keep moving slightly
-			itemHolderSprite.transform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.25f).OnComplete(() => {
-				itemSprite.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.25f);
+			itemHolderSprite.transform.DOScale(Vector3.one*1.1f, 0.25f).OnComplete(() => {
+				itemSprite.transform.DOScale(Vector3.one*0.5f, 0.25f);
 			});
 
 			//set the currentItem
@@ -189,9 +186,8 @@ namespace Circk{
 
 		private void endItem(){
 			//Animate it to hide
-			itemHolderSprite.transform.DOScale(Vector3.zero, 0.25f).OnComplete(() => {
-				itemSprite.transform.DOScale(Vector3.zero, 0.25f);
-			});
+			itemHolderSprite.transform.DOScale(Vector3.zero,0.25f);
+			itemSprite.transform.DOScale(Vector3.zero,0.25f);
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace Circk{
 		public float energyBarMax = 100f;
 		public float energyBarCurrentPoints = 0f;
 		public float energyBarTime = 10f;
-		public Tweener barTween;
+		public bool energyBarFilling = false;
 
 		[Header("Score")]
 		public Text scoreValueText;
@@ -58,17 +58,7 @@ namespace Circk{
 		static public GameManager Instance { get { return GameManager._instance; } }
 
 		private void Awake (){
-			//Only one GameManager
-			if (GameManager.Instance == null)
-			{
-				GameManager._instance = this;
-				GameObject.DontDestroyOnLoad(this.gameObject);
-			}
-			else
-			{
-				GameObject.Destroy(this.gameObject);
-				return;
-			}
+			_instance = this;
 		}
 
 		void Start(){
@@ -85,6 +75,16 @@ namespace Circk{
 			if(spawn){
 				SpawnEnemy(enemy);
 				spawn = false;
+			}
+			if (energyBarFilling) {
+				if (energyBarCurrentPoints < energyBarMax) {
+					energyBarCurrentPoints += Time.deltaTime*(energyBarMax/energyBarTime);
+					if (energyBarCurrentPoints >= energyBarMax) {
+						energyBarAnimator.SetBool("SpecialReady",true);
+						energyBarSpecialFrame.SetActive(true);
+					}
+					SetEnergyBarFillYScale(energyBarCurrentPoints / energyBarMax);
+				}
 			}
 		}
 
@@ -153,23 +153,14 @@ namespace Circk{
 
 		// Realiza o Tween da variavel de Pontos da barra de especial
 		public void StartFillEnergyBar(){
-			barTween = DOTween.To (() => energyBarCurrentPoints, x => energyBarCurrentPoints = x, energyBarMax, energyBarTime)
-				.OnUpdate (() => {
-					SetEnergyBarFillYScale (energyBarCurrentPoints / energyBarMax);
-				})
-				.OnComplete (() => {
-					energyBarAnimator.SetBool ("SpecialReady", true); 
-					energyBarSpecialFrame.SetActive (true);
-				})
-				.SetEase (Ease.Linear);
-
+			energyBarFilling = true;
 		}
 
 		public void ResetEnergyBar(){
 
 			// CALL THIS AFTER SHOOTING A PROJECTILE
-
-			barTween.Pause ();
+			
+			energyBarFilling = false;
 
 			SetEnergyBarFillYScale (0f);
 
@@ -180,15 +171,17 @@ namespace Circk{
 			if (GameManager.Instance.CurrentGameState == GameState.GAME)
 				StartFillEnergyBar ();
 		}
-
+		
 		protected void SetEnergyBarFillYScale(float newY){
 			var vAux = new Vector2(energyBarFill.transform.localScale.x, newY);
 			energyBarFill.transform.localScale = vAux;
 		}
 
 		public void IncrementScore(int increment){
-			currentScore += increment;
-			UpdateScoreText ();
+			if (CurrentGameState == GameState.GAME) {
+				currentScore += increment;
+				UpdateScoreText();
+			}
 		}
 
 		public void ResetCurrentScore(){
