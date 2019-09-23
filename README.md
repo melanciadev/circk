@@ -1,8 +1,6 @@
 # Circk
 
-Made for SPJam 2016.
-
-Download: [melancia.itch.io/circk](http://melancia.itch.io/circk)
+More info at [melancia.itch.io/circk](http://melancia.itch.io/circk)
 
 # License
 
@@ -26,6 +24,3 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-        
-          
