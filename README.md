@@ -1,6 +1,6 @@
 # Circk
 
-More info at [melancia.itch.io/circk](http://melancia.itch.io/circk)
+More info at [olmewe.itch.io/circk](http://olmewe.itch.io/circk)
 
 # License
 
